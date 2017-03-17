@@ -19,6 +19,6 @@ tr:nth-child(even){
 }
 
 th {
-    background-color: @linkColor;
+    background-color: #4CAF50;
     color: white;
 }
