@@ -40,7 +40,7 @@ x<-x[,c("Date","Jour","Début","Fin","Événement","Responsable","Local","Sujet"
 css.cell1<-matrix("padding-left: .9em; padding-right: .9em;",ncol=ncol(x),nrow=nrow(x))
 css.cell2<-matrix("",ncol=ncol(x),nrow=nrow(x))
 cw <- strftime(as.POSIXlt(as.character(x$Date)),format="%W")%in%strftime(as.POSIXlt(substr(Sys.time(),1,10)),format="%W") 
-css.cell2[cw,]<-" font-weight: bold;"
+css.cell2[cw,]<-" font-weight: bolder;"
 css.cell<-matrix(paste0(css.cell1,css.cell2),ncol=ncol(x),nrow=nrow(x))
 
 
