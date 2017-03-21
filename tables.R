@@ -11,8 +11,8 @@ library(lubridate)
 library(htmlTable)
 
 
-clink<-function(x){
-  ifelse(!is.na(x[,"Lien"]),paste0("<a target='_blank' href='",x[,"Lien"],"'>",x[,"Détails"],"</a>"),x[,"Détails"])
+clink<-function(x,col){
+  ifelse(!is.na(x[,"Lien"]),paste0("<a target='_blank' href='",x[,"Lien"],"'>",x[,col],"</a>"),x[,col])
 }
 
 int2time<-function(x){
@@ -29,7 +29,8 @@ x<-x[!is.na(x$Événement) & as.character(x$Date)>=substr(Sys.time()-(3600*24*5)
 day<-weekdays(x$Date)
 x$Jour<-paste0(toupper(substr(day,1,1)),substr(day,2,nchar(day)))
 
-x$Détails<-clink(x)
+x$Détails<-clink(x,col="Détails")
+x$Responsable<-ifelse(x$Événement=="Séminaire invité",clink(x,col="Responsable"),x$Responsable)
 x$Début<-int2time(x$Début)
 x$Fin<-int2time(x$Fin)
 x$Lien<-NA
