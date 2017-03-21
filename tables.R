@@ -12,7 +12,7 @@ library(htmlTable)
 
 
 clink<-function(x){
-  ifelse(!is.na(x[,"Lien"]),paste0("<a target='_blank' href='",x[,"Lien"],"'>",x[,"Sujet"],"</a>"),x[,"Sujet"])
+  ifelse(!is.na(x[,"Lien"]),paste0("<a target='_blank' href='",x[,"Lien"],"'>",x[,"Détails"],"</a>"),x[,"Détails"])
 }
 
 int2time<-function(x){
@@ -29,13 +29,13 @@ x<-x[!is.na(x$Événement) & as.character(x$Date)>=substr(Sys.time()-(3600*24*5)
 day<-weekdays(x$Date)
 x$Jour<-paste0(toupper(substr(day,1,1)),substr(day,2,nchar(day)))
 
-x$Sujet<-clink(x)
+x$Détails<-clink(x)
 x$Début<-int2time(x$Début)
 x$Fin<-int2time(x$Fin)
 x$Lien<-NA
 x<-x[order(x$Date,x$Début),]
 x<-x[,setdiff(names(x),c("Lien","Commentaires"))]
-x<-x[,c("Date","Jour","Début","Fin","Événement","Responsable","Local","Sujet")]
+x<-x[,c("Date","Jour","Début","Fin","Événement","Responsable","Local","Détails")]
 
 css.cell1<-matrix("padding-left: .9em; padding-right: .9em;",ncol=ncol(x),nrow=nrow(x))
 css.cell2<-matrix("",ncol=ncol(x),nrow=nrow(x))
