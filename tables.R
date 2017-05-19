@@ -16,7 +16,11 @@ clink<-function(x,col){
 }
 
 int2time<-function(x){
-  x<-as.integer(x)
+  #x<-as.integer(x)
+  x<-sapply(strsplit(x,":"),function(i){
+    j<-as.numeric(i)
+    j[1]*3600+j[2]*60
+  })
   h<-x%/%3600
   m<-(x-h*3600)/60
   res<-paste(formatC(h,width=2,flag=0),formatC(m,width=2,flag=0),sep=":")
@@ -26,7 +30,8 @@ int2time<-function(x){
 x<-as.data.frame(gsheet2tbl('https://docs.google.com/spreadsheets/d/1Udz3YHed2MMq7X5eeO8IByIJuyePUa51VKCctZr47IM/edit#gid=0'))
 x<-x[!is.na(x$Événement) & as.character(x$Date)>=substr(Sys.time()-(3600*24*5),1,10),]
 
-day<-weekdays(x$Date)
+
+day<-weekdays(as.Date(x$Date))
 x$Jour<-paste0(toupper(substr(day,1,1)),substr(day,2,nchar(day)))
 
 x$Détails<-ifelse(x$Événement=="Séminaire invité",x$Détails,clink(x,col="Détails"))
@@ -45,7 +50,7 @@ css.cell2[cw,]<-" font-weight: bolder;"
 css.cell<-matrix(paste0(css.cell1,css.cell2),ncol=ncol(x),nrow=nrow(x))
 
 
-x$Date<-format(x$Date,"%d %b")
+x$Date<-format(as.Date(x$Date),"%d %b")
 
 align<-paste(paste(rep('c',ncol(x)-2),collapse=''),paste(rep("l",2),collapse=""),sep="")  
 
