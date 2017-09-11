@@ -17,14 +17,20 @@ clink<-function(x,col){
 
 int2time<-function(x){
   #x<-as.integer(x)
-  x<-sapply(strsplit(x,":"),function(i){
-    j<-as.numeric(i)
-    j[1]*3600+j[2]*60
+  #x<-ifelse(is.na(x),"",x)
+  x<-sapply(strsplit(format(x),":"),function(i){
+    if(length(i)==1){
+      NA
+    }else{
+      j<-as.numeric(i)
+      j[1]*3600+j[2]*60
+    }
   })
   h<-x%/%3600
   m<-(x-h*3600)/60
   res<-paste(formatC(h,width=2,flag=0),formatC(m,width=2,flag=0),sep=":")
-  ifelse(is.na(x),"",res)
+  res<-substr(res,1,5)
+  ifelse(res=="NA:NA","",res)
 }
 
 x<-as.data.frame(gsheet2tbl('https://docs.google.com/spreadsheets/d/1Udz3YHed2MMq7X5eeO8IByIJuyePUa51VKCctZr47IM/edit#gid=0'))
