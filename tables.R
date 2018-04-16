@@ -60,6 +60,11 @@ x$Date<-format(as.Date(x$Date),"%d %b")
 
 align<-paste(paste(rep('c',ncol(x)-2),collapse=''),paste(rep("l",2),collapse=""),sep="")  
 
-htmlTable(x,rnames=FALSE,css.cell=css.cell,align=align)
-
-
+bab<-function(){
+  cat("\014")
+  cat("<!DOCTYPE html>\n<html>\n<head>\n<link href='styles.css' rel='stylesheet' type='text/css'>\n</head>\n<body>\n")
+  h<-htmlTable(x,rnames=FALSE,css.cell=css.cell,align=align)
+  print(h)
+  cat("</body>\n</html>")
+}
+bab()
