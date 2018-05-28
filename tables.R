@@ -64,7 +64,7 @@ bab<-function(){
   cat("\014")
   cat("<!DOCTYPE html>\n<html>\n<head>\n<link href='styles.css' rel='stylesheet' type='text/css'>\n</head>\n<body>\n")
   h<-htmlTable(x,rnames=FALSE,css.cell=css.cell,align=align)
-  print(h)
+  cat(h)
   cat("</body>\n</html>")
 }
 bab()
