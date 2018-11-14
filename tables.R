@@ -34,7 +34,7 @@ int2time<-function(x){
 }
 
 x<-as.data.frame(gsheet2tbl('https://docs.google.com/spreadsheets/d/1Udz3YHed2MMq7X5eeO8IByIJuyePUa51VKCctZr47IM/edit#gid=0'))
-x<-x[!is.na(x$Événement) & as.character(x$Date)>=substr(Sys.time()-(3600*24*5),1,10),]
+x<-x[!is.na(x$Événement) & as.character(x$Date)>=substr(Sys.time()-(3600*24*0),1,10),]
 
 
 day<-weekdays(as.Date(x$Date))
