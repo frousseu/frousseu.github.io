@@ -41,13 +41,13 @@ day<-weekdays(as.Date(x$Date))
 x$Jour<-paste0(toupper(substr(day,1,1)),substr(day,2,nchar(day)))
 
 x$Détails<-ifelse(x$Événement=="Séminaire invité",x$Détails,clink(x,col="Détails"))
-x$Présentateur<-ifelse(x$Événement=="Séminaire invité",clink(x,col="Présentateur"),x$Présentateur)
+x$Présentateur<-ifelse(x$Événement=="Séminaire invité",clink(x,col="Présentateur / Responsable"),x$Présentateur)
 x$Début<-int2time(x$Début)
 x$Fin<-int2time(x$Fin)
 x$Lien<-NA
 x<-x[order(x$Date,x$Début),]
 x<-x[,setdiff(names(x),c("Lien","Commentaires"))]
-x<-x[,c("Date","Jour","Début","Fin","Événement","Présentateur","Local","Détails")]
+x<-x[,c("Date","Jour","Début","Fin","Événement","Présentateur / Responsable","Local","Détails")]
 
 css.cell1<-matrix("padding-left: .9em; padding-right: .9em;",ncol=ncol(x),nrow=nrow(x))
 css.cell2<-matrix("",ncol=ncol(x),nrow=nrow(x))
