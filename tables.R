@@ -41,7 +41,7 @@ day<-weekdays(as.Date(x$Date))
 x$Jour<-paste0(toupper(substr(day,1,1)),substr(day,2,nchar(day)))
 
 x$Détails<-ifelse(x$Événement=="Séminaire invité",x$Détails,clink(x,col="Détails"))
-x$Présentateur<-ifelse(x$Événement=="Séminaire invité",clink(x,col="Présentateur / Responsable"),x$Présentateur)
+x$"Présentateur / Responsable"<-ifelse(x$Événement=="Séminaire invité",clink(x,col="Présentateur / Responsable"),x$"Présentateur / Responsable")
 x$Début<-int2time(x$Début)
 x$Fin<-int2time(x$Fin)
 x$Lien<-NA
