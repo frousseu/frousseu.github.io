@@ -59,7 +59,7 @@ css.cell<-matrix(paste0(css.cell1,css.cell2),ncol=ncol(x),nrow=nrow(x))
 
 x$Date<-format(as.Date(x$Date),"%d %b")
 
-align<-paste(paste(rep('c',ncol(x)-2),collapse=''),paste(rep("l",2),collapse=""),sep="")  
+align<-paste(paste(rep('c',ncol(x)-1),collapse=''),paste(rep("l",1),collapse=""),sep="")  
 
 bab<-function(){
   cat("\014")
