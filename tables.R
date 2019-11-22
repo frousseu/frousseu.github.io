@@ -63,7 +63,7 @@ x$Date<-format(as.Date(x$Date),"%d %b")
 align<-paste(paste(rep('c',ncol(x)-1),collapse=''),paste(rep("l",1),collapse=""),sep="")  
 
 bab<-function(){
-  #cat("\014")
+  cat("\014")
   cat("<!DOCTYPE html>\n<html>\n<head>\n<link href='styles.css' rel='stylesheet' type='text/css'>\n</head>\n<body>\n")
   h<-htmlTable(x,rnames=FALSE,css.cell=css.cell,align=align)
   cat(h)
