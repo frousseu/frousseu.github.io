@@ -35,6 +35,7 @@ int2time<-function(x){
 
 x<-as.data.frame(gsheet2tbl('https://docs.google.com/spreadsheets/d/1Udz3YHed2MMq7X5eeO8IByIJuyePUa51VKCctZr47IM/edit#gid=0'))
 x<-x[!is.na(x$Événement) & as.character(x$Date)>=substr(Sys.time()-(3600*24*0),1,10),]
+names(x)<-gsub("\\..."," / ",names(x))
 
 
 day<-weekdays(as.Date(x$Date))
@@ -62,7 +63,7 @@ x$Date<-format(as.Date(x$Date),"%d %b")
 align<-paste(paste(rep('c',ncol(x)-1),collapse=''),paste(rep("l",1),collapse=""),sep="")  
 
 bab<-function(){
-  cat("\014")
+  #cat("\014")
   cat("<!DOCTYPE html>\n<html>\n<head>\n<link href='styles.css' rel='stylesheet' type='text/css'>\n</head>\n<body>\n")
   h<-htmlTable(x,rnames=FALSE,css.cell=css.cell,align=align)
   cat(h)
