@@ -13,7 +13,7 @@ library(htmlTable)
 
 clink<-function(x,col){
   if(col=="Présentateur / Responsable"){
-    return(ifelse(!is.na(x[,"Lien_Pres"]),paste0("<a target='_blank' href='",x[,"Lien_Pres"],"'>",x[,col],"</a>"),x[,col]))
+    return(ifelse(!is.na(x[,"Lien_Presentateur"]),paste0("<a target='_blank' href='",x[,"Lien_Presentateur"],"'>",x[,col],"</a>"),x[,col]))
   }
   if(col=="Détails"){
     return(ifelse(!is.na(x[,"Lien_Details"]),paste0("<a target='_blank' href='",x[,"Lien_Details"],"'>",x[,col],"</a>"),x[,col]))
@@ -51,7 +51,7 @@ x$Début<-int2time(x$Début)
 x$Fin<-int2time(x$Fin)
 x$Lien<-NA
 x<-x[order(x$Date,x$Début),]
-x<-x[,setdiff(names(x),c("Lien_Pres","Lien_Details","Commentaires"))]
+x<-x[,setdiff(names(x),c("Lien_Presentateur","Lien_Details","Commentaires"))]
 x<-x[,c("Date","Jour","Début","Fin","Événement","Présentateur / Responsable","Local","Détails")]
 
 css.cell1<-matrix("padding-left: .9em; padding-right: .9em;",ncol=ncol(x),nrow=nrow(x))
