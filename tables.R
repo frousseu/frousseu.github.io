@@ -10,6 +10,7 @@ library(xtable)
 library(lubridate)
 library(htmlTable)
 
+Sys.setlocale("LC_ALL","French_CAN")
 
 clink<-function(x,col){
   if(col=="Présentateur / Responsable"){
