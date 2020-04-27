@@ -1,0 +1,631 @@
+---
+title: <h1 style="color:#088A08"><b>EXTRACTING PHENOLOGICAL VARIABLES FROM NDVI DATA</b></h1>
+author: "Francois Rousseu"
+date: "9 août 2017"
+output:
+  html_document:
+    depth: 4
+    toc: yes
+    number_sections: yes
+    code_folding: hide
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+always_allow_html: yes
+---
+
+<style>
+pre.r {
+    background-color: #CCCCCC !important;
+}
+</style>
+
+# INTRODUCTION
+
+Here I describe the method used to extract phenological variables from GIMMS and MODIS NDVI data. This document is a bit detailed in order to show exactly what I have done, so it can be understood and critiqued if needed. It is a mix of code and text from which hopefully methods-type information can be extracted. I wrote it in english so it may be understood by more people if others need it.   
+
+```{r options, include=TRUE, cache=FALSE, echo=FALSE, message=FALSE, eval=TRUE}
+
+knitr::opts_chunk$set(echo = TRUE, comment="##", message = FALSE, warning = FALSE, tidy = TRUE, cache = TRUE, eval=TRUE, out.width = "100%", collapse=TRUE)
+
+```
+
+# DOWNLOADING GIMMS DATA
+
+The data can be easily downloaded and extracted using the excellent [gimms](https://envin-marburg.gitbooks.io/introducing-the-r-gimms-package/content/) package. First, we can use the `updateInventory` function fromm the gimms package to list what is available.
+
+```{r inventory}
+
+library(gimms)
+
+gimms_files_v1 <- updateInventory()
+head(gimms_files_v1)
+
+```
+
+The data can then be downloaded with the `downloadGimms` function. A path is given to tell the function where to store the files. The .nc4 files will take about 30 gig of space and it takes quite a while to download them.
+
+```{r store}
+
+path<-"C:/Users/rouf1703/Documents/UdeS/Consultation/L-ARenaud/GIMMS/"
+
+```
+
+```{r download, eval=FALSE}
+
+gimms_files <- downloadGimms(x = as.Date("1981-01-01"),y = as.Date("2016-01-01"),dsn=path,cores=2L)
+
+```
+
+# GETTING DATA INTO R
+
+The data is brought into R using the `rasterizeGimms` function. This will convert the data contained in the .nc4 files into raster data. Once converted to raster, here is what the content of the first file looks like. The data begins in July 1981. Each map represents a period of 15 days.
+
+```{r world, fig.height=6,fig.width=12}
+
+library(raster)
+library(rasterVis)
+
+x<-list.files(path)
+world<-rasterizeGimms(x=paste0(path,x[1]),cores=6)
+levelplot(world,col.regions=rev(terrain.colors(100)),cuts=99)
+
+```
+
+To get the data needed, we will use a shapefile of the region of interest to delimit the zone for which we want to extract the NDVI data. We will bring the region of interest in the R session as a `Spatial` object. For making sure the extracted raster is large enough, we will use a buffer around the region to extract a bit more than what is needed. A 50 km buffer is used. We first determine the bounding box of the region to speed-up the buffer calculation.
+
+```{r region, fig.height=8,fig.width=8, out.width="50%"}
+
+library(sp)
+library(rgdal)
+library(rgeos)
+
+regions<-readOGR("C:/Users/rouf1703/Documents/UdeS/Consultation/YPoisson/Doc",layer="largezone_BC_Alberta",verbose=FALSE)
+buff<-gBuffer(gEnvelope(regions),width=50000)
+plot(buff)
+plot(regions,add=TRUE)
+
+```
+
+The region is in a different coordinate system than the latlon system of the raster files. To use both, we project the region to the same coordinate system than the one from the NDVI raster data (see the familiar latlon WGS84 system [epsg: 4326](http://spatialreference.org/ref/epsg/wgs-84/))
+
+```{r region_proj}
+
+proj4string(regions)
+proj4string(world)
+buff<-spTransform(buff,CRS(proj4string(world))) # en latlon
+regions<-spTransform(regions,CRS(proj4string(world)))
+
+```
+
+
+The next step is to list all files downloaded and build date indices for each bi-monthly period. Because the bi-monthly periods are marked with the first date of the period, the middle date of the period will be used instead and a vector `doy` (day of year) created to associate with values (*confirm that using the middle date is the way to go, maybe the date given is already the one that best represents the mean value?*) . 
+
+```{r doy}
+
+ts<-monthlyIndices(x, version = 1, timestamp = TRUE)
+doy<-as.Date(as.character(ts+round(c(diff(ts),17)/2,0)))
+
+```
+
+The data is extracted from each file to a raster using again the `rasterizeGimms` function and the extent of the buffer applied on the region. To speed-up the process, more than one core can be used.
+
+```{r data2R}
+
+r<-rasterizeGimms(x=paste0(path,x),ext=buff,cores=6)
+r
+
+```
+
+ The `r` object is a `RasterStack` object with 106 x 180 cells and 828 layers.
+
+## Visualizing data
+
+Let's visualize the data for the first 6 layers of the raster stack to see if the correct region has been extracted. 
+
+```{r plot_raster, fig.height=7, fig.width=12}
+
+levelplot(subset(r,1:6),col.regions=rev(terrain.colors(100)),cuts=99) +
+  layer(sp.polygons(regions,col=gray(0,0.2)))
+
+```
+
+Alternatively, the region and the first layer of the raster can be plotted on an interactive map using the [leaflet](https://rstudio.github.io/leaflet/) and the [tmap](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-nutshell.html) package. 
+
+```{r tmap_raster, tidy=FALSE}
+
+library(tmap)
+
+tmap_mode("view")
+  tm_shape(r[[1]]) +
+  tm_raster(palette = rev(terrain.colors(100)),n=12) +
+  tm_shape(regions) +
+  tm_borders(lwd = 2,alpha = 0.3, col = "black") +
+  tm_layout(basemaps = c("Esri.WorldImagery", "Esri.WorldShadedRelief", "Esri.NatGeoWorldMap"))
+
+```
+
+
+# SMOOTHING THE TIME SERIES
+
+Different techniques will be used to extract information from the smoothed NDVI time series. The first will be the logistic curve which is well suited to estimate the timing of green-up and the second will be the Savitsky-Golay filter which is less constrained by a given functional shape. A list of papers on the subject is given at the end of the document. 
+
+## Extracting pixel values
+
+First, to faciliate the manipulation of the value of each pixel, we will extract the data to a matrix where the NDVI time series of each pixel will be a row of the matrix. Phenological variables will be extracted for each pixel of the raster. As we can see from the following histogram, NDVI values are theoretically bound between -1 and 1 (but here mostly -0.2 and 1) where values around 0 or under indicate snow or water and higher values roughly indicate an increasing amount of vegetation.
+
+```{r extract, fig.height=3,fig.width=10}
+
+v<-r[]
+hist(v,main="Frequency of NDVI values",xlab="NDVI")
+
+```
+
+Here is what the data from the 1000th pixel looks like:
+
+```{r raw, fig.height=2.5,fig.width=10}
+
+plot(doy,v[1000,],main="Temporal variation in NDVI",xlab="Time",ylab="NDVI",type="l")
+
+```
+
+## The logistic curve
+
+The logistic curve appears well suited to describing NDVI time series because it allows to fit realistic shape to the data while providing consistent values to describe specific phenological events using parameters from the curves and its derivative. To illustrate this, we will use two functions for extracting different values form the logistic curve that will be used to describe the phenology. The first function returns the values of the logistic curve and its first 3 derivatives for a given set of parameters. 
+
+```{r logistic_deriv}
+
+logistic_deriv<-function(x,alpha=1,beta=1,gamma=1,offset=0){
+  d0<-function(alpha,beta,gamma,offset){
+    alpha/(1+exp(-beta-gamma*x))+offset
+  }
+  d1<-function(alpha,beta,gamma){
+    alpha*gamma*exp(-beta-gamma*x)*(1+exp(-beta-gamma*x))^(-2)
+  }
+  d2<-function(alpha,beta,gamma){
+    alpha*gamma^2*exp(-beta-gamma*x)*(exp(-beta-gamma*x)-1)*(1+exp(-beta-gamma*x))^(-3)
+  }
+  d3<-function(alpha,beta,gamma){
+    alpha*gamma^3*exp(-beta-gamma*x)*(1-4*exp(-beta-gamma*x)+exp(-beta-gamma*x)^2)*(1+exp(-beta-gamma*x))^(-4)
+  }
+  y0<-d0(alpha,beta,gamma,offset)
+  y1<-d1(alpha,beta,gamma)
+  y2<-d2(alpha,beta,gamma)
+  y3<-d3(alpha,beta,gamma)
+  list(unname(y0),unname(y1),unname(y2),unname(y3))
+}
+```
+
+This second function returns a list of all x values corresponding to an optimum (i.e. when their derivative = 0) of the first 3 derivatives for a given set of parameters 
+
+```{r logistic_optimum}
+
+logistic_optimum<-function(alpha=1,beta=1,gamma=1){
+  l<-list()
+  l[[1]]<-as.list(-beta/gamma)
+  l[[2]]<-as.list(data.frame(t(cbind(-(log(2+sqrt(3))+beta)/gamma,-(log(2-sqrt(3))+beta)/gamma))))  
+  l[[3]]<-as.list(data.frame(t(cbind(-(log(5+2*sqrt(6))+beta)/gamma,-beta/gamma,-(log(5-2*sqrt(6))+beta)/gamma))))
+  l
+}
+
+```
+
+Now, we can use both function and see what this looks like graphically by assigning some parameters.
+
+```{r logistic_graph, fig.height=5,fig.width=8}
+
+a<-1
+b<-1
+g<-1
+
+x<-seq(-10,10,by=0.01)
+l<-logistic_deriv(x,alpha=a,beta=b,gamma=g,offset=0)
+
+col<-gray((0:4)/5)
+plot(x,l[[1]],ylim=range(unlist(l)),type="n",ylab="",xlab="")
+lines(x,l[[1]],lwd=4,col=col[1])
+lines(x,l[[2]],lwd=2,col=col[2])
+lines(x,l[[3]],lwd=2,col=col[3])
+lines(x,l[[4]],lwd=2,col=col[4])
+legend("right",inset=c(0.1,0),lwd=c(4,2,2,2),col=col,legend=c("Logistic curve",paste("Derivative",1:3)),bty="n")
+abline(0,0)
+
+l<-logistic_optimum(alpha=a,beta=b,gamma=g)
+l<-unique(unlist(l))
+invisible(lapply(l,function(i){
+  lines(rep(i,2),c(-1000,1000),lty=2)
+}))
+
+```
+
+The vertical lines represent different optimums of the derivatives. We can see that these values could be used for marking the beginning, the middle or the end of the green-up period.
+
+### Fitting the logistic to NDVI data
+
+Now, we need to fit logisitic curves for each spring and each pixel. For that, we use the following function which takes as input a vector of NDVI values with dates as names. The vector has to be ordered according to the dates. The first argument `use` tells the date between which the data should be considered. The function will look for each run of values between those dates and fit a logistic curve. These two dates are chosen so that they contain most dates associated with the winter and summer plateaus in NDVI values. The second argument `mm` sets constraints on the earliest and the latest dates on which the (maximum) green-up can occur. This corresponds to the xmid parameter in the model. 
+
+The remaining arguments allow to impose further constraints on the shape of the logisitc curve fitted. They are specified to reduced the likelihood of getting non-sensical values and to increase the likelihood of convergence. For each parameter, the minimum and the maximum values are given, respectively. In certain cases, the model may not converge and an NA value is returned. The function returns a list of lists, with the data, the parameters and the model for each year of data. 
+
+A different parameterization of the curve was use (Asym, scal and xmid instead alpha, beta and gamma) to make the value of the parameters more explicit in terms of phenological or NDVI variables. Asym represents the maximal NDVI value, scal the steepness of the curve and xmid the inflexion point.
+
+```{r logNDVI}
+
+logNDVI<-function(x,use=c("12-01","09-15"),mm=c("03-01","07-01"),Asym=c(0,1),scal=c(5,40),offset=c(0,0.8)){
+  years<-as.integer(unique(substr(names(x),1,4)))
+  l<-lapply(years,function(i){
+    paste(c(i-1,i),use,sep="-")  
+  })
+  res<-lapply(l,function(i){
+    sx<-x[which(names(x)>=i[1] & names(x)<=i[2])]
+    d<-data.frame(y=sx,x=as.integer(as.Date(names(sx))))
+    xmid<-as.integer(as.Date(paste(substr(i[2],1,4),mm,sep="-")))
+    lo<-list(Asym=Asym[1],xmid=xmid[1],scal=scal[1],offset=offset[1])
+    up<-list(Asym=Asym[2],xmid=xmid[2],scal=scal[2],offset=offset[2])
+    start<-mapply(function(x,y){((y-x)/2)+x},lo,up,SIMPLIFY=FALSE)
+    m<-tryCatch(
+      nls(y~Asym/(1+exp((xmid-x)/scal))+offset,data=d,start=start,control=list(minFactor=1e-12,maxiter=500),lower=lo,upper=up,algorithm="port")
+      ,error=function(j){TRUE}
+    )
+    if(!isTRUE(m)){
+      p<-d
+      co<-coef(m)
+    }else{
+      p<-NA
+      co<-NA
+    }
+    list(data=p,param=co,model=m)
+  })
+  res
+}
+
+```
+
+Let's look at the fit returned for the first 200 values of the 1000th pixel.
+
+```{r lodNDVI_ex, fig.height=5, fig.width=10}
+
+n<-200
+x<-v[1000,]
+names(x)<-doy
+
+l<-logNDVI(x)
+
+d<-lapply(l,function(i){
+  if(!identical(i$param,NA)){
+    se<-seq(min(i$data$x),max(i$data$x),by=1)
+    p<-predict(i$model,data.frame(x=se))
+    data.frame(date=as.integer(se),log=p)
+  }
+})
+d<-do.call("rbind",d)
+d$ndvi<-unname(x[match(d$date,as.integer(as.Date(names(x))))])
+d<-merge(d,data.frame(date=seq(min(d$date),max(d$date),by=1)),all=TRUE)
+
+plot(doy,x,xlim=range(doy[1:n]),ylim=c(-0.2,1.13),ylab="NDVI",pch=16,col=gray(0,0.25))
+lines(d$date,d$log,type="l",lwd=2)
+
+```
+
+
+
+## The Savitsky-Golay Filter
+
+The [Savitsky-Golay filter](https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter) (SG) is a signal-processing method to smooth data points using low-order polynomials. Here, we will use it to smooth the NDVI time series. One of its advantage is that it also offers the derivatives of the smoothed signal. Normally, it is applied to equally spaced data and here we will make the assumption that each NDVI measure is equally spaced in time. The [signal](https://CRAN.R-project.org/package=signal) package contains a function (`sgolayfilt`) to do SG filtering. Let's look at what it looks like for the same time series as above.
+
+```{r sg, fig.height=5, fig.width=10}
+
+library(signal)
+
+s0<-sgolayfilt(x,m=0,p=3,n=9)
+s1<-sgolayfilt(x,m=1,p=3,n=9)
+
+plot(doy,x,xlim=range(doy[1:n]),ylim=c(-0.2,1.13),ylab="NDVI",pch=16,col=gray(0,0.25))
+lines(doy,s0,lwd=2)
+lines(doy,s1,lwd=2)
+abline(0,0)
+
+```
+
+The bottom curve is the first derivative. Parameters of the filter can be modified, namely the order of the polynomial (`p`) and the length of the window of the filter (`n`), which roughly translates to different level of smoothness. The argument `m` is the derivative of the series. Here is the same filters with different degrees of smoothness.
+
+```{r sg_vis, fig.height=5, fig.width=10}
+
+# to easily add transparency to colors
+library(scales)
+
+smooth<-c(5,9,15,21)
+col<-alpha(c("black","blue","red","green"),0.5)
+plot(doy,x,xlim=range(doy[1:n]),ylim=c(-0.2,1.13),ylab="NDVI",pch=16,col=gray(0,0.25))
+abline(0,0)
+for(i in seq_along(smooth)){
+  lines(doy,sgolayfilt(x,m=0,p=3,n=smooth[i]),col=col[i],lwd=2)
+  lines(doy,sgolayfilt(x,m=1,p=3,n=smooth[i]),col=col[i],lwd=2)
+}
+legend("top",legend=smooth,col=col,lwd=2,title="Smoothness",ncol=4,bty="n")
+
+```
+
+Although the fit is more flexible and better adapts to the time series, one of the drawbacks is that it is more difficult to identify specific time points such as the onset of spring. The maximum slope of increase in NDVI values can also show up anywhere during green-up which may make the the dates obtained more variables. To reduce this, a higher value of `n` is used to obtain a smoother first derivative.
+
+## Comparing both methods
+
+Using [dygraphs](https://rstudio.github.io/dygraphs/index.html), we can put all series together on the same interactive plot. We will first turn the fitted values into a time series with the xts package. Also, to facilitate the plotting of the values on the dygraph we will linearly interpolate daily values of the SG filter with function `na.approx` from the [zoo](https://CRAN.R-project.org/package=zoo) package.
+
+```{r ts}
+
+library(xts)
+
+s0<-sgolayfilt(x,m=0,p=3,n=7)
+s1<-sgolayfilt(x,m=1,p=3,n=15)
+
+d<-merge(d,data.frame(date=doy,s0,s1),all.x=TRUE)
+
+d$s0<-na.approx(d$s0)
+d$s1<-na.approx(d$s1)
+
+ts<-xts(d[,c(3,2,4,5)],as.Date(d[,1]))
+head(ts,20)
+
+```
+
+
+Once the time series object is made, we can put them all in the interactive dygraph.
+
+```{r dygraph, fig.height=5, tidy=FALSE, cache=FALSE}
+
+library(dygraphs)
+library(magrittr)
+
+g<-dygraph(ts, main = "Smoothing NDVI time-series", xlab="Date", ylab="NDVI") %>%
+     dySeries("ndvi", drawPoints = FALSE, pointSize = 2) %>%
+     dySeries("s0", drawPoints = FALSE, strokeWidth = 2) %>%
+     dySeries("s1", drawPoints = FALSE, strokeWidth = 2) %>%
+     dySeries("log", drawPoints = FALSE, strokeWidth = 2) %>%
+     dyOptions(colors = c("#9F9F9F", "#9F9F9F", "#9F9F9F", "#008B00"), strokeWidth = 3) %>% 
+     dyRangeSelector()
+g
+
+```
+
+# PHENOLOGICAL VARIABLES
+
+We will extract several values from the smoothed time series, namely:
+
+- **NDVIgu**: maximum slope of the curve (slope at the inflexion point) (logistic and SG filter)
+- **NDVIgutime**: date of the maximum slope, constrained to be between 03-01 and 07-01 (logistic and SG filter)
+- **NDVIgutimebeg**: date of the beginning of the green-up, defined here as the maximum value of the second derivative of the logistic curve (logistic)
+- **NDVIgutimeend**: date of the end of the green-up period, defined here as the minimal value of the second derivative of the logistic curve (logistic)
+- **NDVIgutimespan**: span of time in number of days between the beginning and the end of the green-up period (logistic)
+- **NDVImax**: maximum NDVI value extract from the SG filter and the asymptote of the logistic curve (logistic and SG filter)
+- **NDVImaxtime**: date of the maximum NDVI value (SG filter)
+
+Some values will be extracted using both the logistic curve and the SG filter while others will be extracted only for a given curve. For example, the beginning of the green-up period is not really defined for the SG filter.
+
+First, to extract values from the SG filter, we use a function that finds the maximal or the minimal value in a series according to different blocks of dates. Just like for the `logNDVI` function, the input is a named vector of values with dates as names. The argument `beg` and `end` mark the beginning  and the end of the period (in mm-dd format) in which the maximum value is to be found. The argument `n` tells how many values to consider and `max` tells whether to consider the maximum (`TRUE`) or the minimum (`FALSE`) value.
+
+```{r findminmax}
+
+findminmax<-function(x,n=1,beg="06-01",end="11-01",max=TRUE){
+  stopifnot(!is.null(names(x)))
+  d<-substr(names(x),6,10)
+  bloc<-d>=beg & d<=end
+  run<-rle(bloc)
+  l<-Map(":",c(1,head(cumsum(run[[1]]),-1))[run[[2]]],cumsum(run[[1]])[run[[2]]])
+  res<-lapply(l,function(i){
+    r<-base:::rank(ifelse(max,-1,1)*x[i])
+    val<-sort(r)[1:n]
+    index<-i[match(val,r)]
+    index   
+  })
+  res
+}
+
+```
+
+
+Now, let's extract all of these values.
+
+```{r values, fig.height=5.5}
+
+names(s0)<-doy
+names(s1)<-doy
+
+### SG filtering
+pos0<-unlist(findminmax(s0,n=1,beg="03-01",end="10-01"))[-1]
+pos1<-unlist(findminmax(s1,n=1,beg="03-01",end="07-01"))
+    
+NDVImax_sg<-s0[pos0]
+NDVImaxtime_sg<-as.integer(as.Date(names(s0)[pos0]))
+names(NDVImax_sg)<-NDVImaxtime_sg
+d<-merge(d,data.frame(date=NDVImaxtime_sg,NDVImax_sg),all.x=TRUE)
+
+NDVIgu_sg<-s1[pos1]
+NDVIgutime_sg<-as.integer(as.Date(names(s1)[pos1]))
+names(NDVIgu_sg)<-NDVIgutime_sg
+d<-merge(d,data.frame(date=NDVIgutime_sg,NDVIgu_sg),all.x=TRUE)
+
+### Logistic curve
+scal<-sapply(l,function(k){k$param["scal"]})
+xmid<-sapply(l,function(k){k$param["xmid"]})
+Asym<-sapply(l,function(k){k$param["Asym"]})
+offset<-sapply(l,function(k){k$param["offset"]})
+    
+NDVIguslope_log<-logistic_deriv(xmid,alpha=Asym,beta=-xmid/scal,gamma=1/scal,offset=offset)[[2]] # do not take the scale, but the max slope
+NDVIgutime_log<-as.integer(as.Date(xmid))
+names(NDVIguslope_log)<-NDVIgutime_log
+
+    
+de<-logistic_optimum(alpha=Asym,beta=-xmid/scal,gamma=1/scal)
+
+NDVIgutimebeg_log<-sapply(de[[2]],"[",1)
+NDVIgutimeend_log<-sapply(de[[2]],"[",2)
+#NDVIgutimespan_log<-NDVIgutimeend_log-NDVIgutimebeg_log
+
+NDVIgu_log<-sapply(seq_along(NDVIgutimebeg_log),function(i){predict(l[[i]]$model,data.frame(x=NDVIgutime_log[i]))})
+NDVIgubeg_log<-sapply(seq_along(NDVIgutimebeg_log),function(i){predict(l[[i]]$model,data.frame(x=NDVIgutimebeg_log[i]))})
+NDVIguend_log<-sapply(seq_along(NDVIgutimeend_log),function(i){predict(l[[i]]$model,data.frame(x=NDVIgutimeend_log[i]))})
+
+d<-merge(d,data.frame(date=NDVIgutime_log,NDVIgu_log),all.x=TRUE)
+d<-merge(d,data.frame(date=as.integer(as.Date(NDVIgutimebeg_log)),NDVIgubeg_log),all.x=TRUE)
+d<-merge(d,data.frame(date=as.integer(as.Date(NDVIgutimeend_log)),NDVIguend_log),all.x=TRUE)
+
+ts2<-xts(d[,2:ncol(d)],as.Date(d[,1]))
+
+```
+
+Here is what it looks like on a dygraph.
+
+```{r dygraph_values, fig.height=5, tidy=FALSE, cache=FALSE}
+
+g1<-dygraph(ts2, main = "Extracting vegetation phenology metrics from NDVI time-series", xlab="Date", ylab="NDVI") %>%
+     dySeries("ndvi", drawPoints = FALSE, pointSize = 2) %>%
+     dySeries("s0", drawPoints = FALSE, strokeWidth = 2) %>%
+     dySeries("s1", drawPoints = FALSE, strokeWidth = 2) %>%
+     dySeries("log", drawPoints = FALSE, strokeWidth = 2) %>%
+     dySeries("NDVImax_sg", drawPoints = TRUE, pointSize = 2) %>%
+     dySeries("NDVIgu_sg", drawPoints = TRUE, pointSize = 2) %>%
+     dySeries("NDVIgu_log", drawPoints = TRUE, pointSize = 2) %>%
+     dySeries("NDVIgubeg_log", drawPoints = TRUE, pointSize = 2) %>%
+     dySeries("NDVIguend_log", drawPoints = TRUE, pointSize = 2) %>%
+     dyOptions(colors = c("#9F9F9F", "#9F9F9F", "#9F9F9F", "#008B00","black","black","black","black","black"), strokeWidth = 2) %>% 
+     dyRangeSelector() %>% 
+     dyLegend(width = 600) %>% 
+     dyAxis("y", label = "NDVI", valueRange = c(-0.2, 1.15))
+
+g1
+
+
+```
+
+
+# DISPLAY PIXEL-WISE RESULTS
+
+## Combining variables in new rasters
+
+Now, suppose we have extracted values for each pixel and each variable and stored them in an R session and a list `lr` of rasters.
+
+```{r load_session, cache=TRUE, echo=TRUE}
+
+# load a previously ran session with the data
+load("C:/Users/rouf1703/Desktop/ndvi.RData")
+names(lr)
+
+```
+
+Here is the variation in green-up time across the region of interest, as described using the logistic curve method
+
+```{r gu_vis2, cache=TRUE, echo=TRUE,fig.height=7,fig.width=10}
+
+spplot(lr$NDVIgutime_log,col.regions=rasterTheme()$regions$col,cuts=99, main=list(label="Date of the maximal green-up in Julian days"),par.settings= list(strip.background=list(col="white")))
+
+```
+
+
+## Scaling values across regions
+
+If there are latitudinal or altitudinal variations in phenology across regions, using a date in a model as a measure of the timing of some phenological event may be a problem because it does not necessarily means the same thing across different regions. For example, the day 140 for the onset of spring may represent an early spring for a northern region, but it may represent a standard onset of spring in a southern region. Thus, it may be preferable to scale all values for each pixel to account for spatio-temporal variations in phenology. Here is what the scaled green-up looks like. 
+
+```{r gudif_vis, fig.height=7,fig.width=10}
+
+# to get the colo.scale function, to install package do devtools:::install_github("frousseu/FRutils")
+library(FRutils)
+
+dif<-lr$NDVIgutime_log-mean(lr$NDVIgutime_log,na.rm=TRUE)
+names(dif)<-1982:2015
+mm<-range(dif[],na.rm=TRUE)
+mm<-seq(mm[1],mm[2],length.out=200)
+
+spplot(dif,col.regions=colo.scale(mm,c("darkred","tomato","white","blue","navyblue"),center=TRUE),cuts=99, main=list(label="Yearly differences in the timing of maximal green-up for each 8 x 8 km pixels",cex=1),par.settings= list(strip.background=list(col="white")))
+
+```
+
+## Writing rasters
+
+The list of rasters containing the different variables can be written to disk with the `writeRaster` function like this:
+
+```{r write, eval=FALSE}
+
+for(i in seq_along(lr)){
+  writeRaster(lr[[i]],paste0("C:/Users/rouf1703/Documents/","r",paste0(names(lr)[i],".tif")),format="GTiff")
+}
+
+```
+
+# CHARACTERIZING REGIONS
+
+Now, let's say we have polygons and we want to extract and summarize phenological variables for them. We need to first extract values and then store them in the `data` slot of the regions `SpatialPolygonsDataFrame`. The mean of variables is computed with each pixel for which the center is contained in the polygons. 
+
+```{r extract_gu, fig.height=7,fig.width=10}
+
+e<-extract(lr$NDVIgutime_log,regions,fun=function(i,...){mean(i,na.rm=TRUE)})
+e<-as.data.frame(e)
+slot(regions,"data")<-cbind(regions@data,e)
+spplot(regions,zcol=names(e),col.regions=rasterTheme()$regions$col,cuts=99,lwd=NA,as.table=TRUE,par.settings= list(strip.background=list(col="white")))
+
+```
+
+<br><br>
+
+# MODIS DATA
+
+<br>
+
+There are a couple of differences with the MODIS data. First, with each pixel value there is a julian date given on which the measurements was taken, giving a bit more temporal resolution compared to GIMMS data. Also, there are two "offset" satellites providing a value every 16 days. When added, the two satellites provide a value roughly every 8 days. Thus, a couple adjustement were made to use the julian dates and to accomodate the more numerous data (e.g. different smoothing with the SG filter). Missing values are more frequent with this dataset and linear interpolation was used to fill the time series (with `na.approx` from package `zoo`). Another important aspect is that julian dates on which NDVI values are taken are not equally spaced in time. This is normally required for SG filtering. For smoothing the data with SG, I used the date of the period of data acquisition to smooth the values and assigned these smoothed values to the real dates of data acquisition. Values in MODIS data also need to be divided by 10000 to get the real NDVI values.   
+
+*- na.approx
+- doy
+- QA ignored
+- more values, hence different smoothing level with SG filter
+- values * 10000
+- 250m
+- 2000 to 2016*
+
+## Dowloading data
+
+The relatively new [MODIStsp](http://lbusett.github.io/MODIStsp/) package allows to easily download MODIS data with a user-friendly GUI.
+
+![](MODIStspGUI.png)
+
+<br><br>
+With MODIStsp, all rasters are saved and defined in R sessions saved by the GUI. The session just have to be loaded to bring the rasters into the current R session.
+
+## Region used
+
+To reduce problems associated with the difficutly of acquiring good data by satellites, I took a region a bit larger than the area used by sheeps. If we assume that the relative timing of spring (or green-up) is similar across the extent of the region, using all pixels should not be a problem if the interest is in quantifying if the green-up is early or late in a particular year. 
+
+```{r modis, fig.height=7,fig.width=12}
+
+load("C:/Users/rouf1703/Documents/UdeS/Consultation/L-ARenaud/MODIS/VI_16Days_250m_v6/Time_Series/RData/MOD13Q1_MYD13Q1_NDVI_49_2000_1_2017_RData.RData")
+modis<-raster_ts
+
+load("C:/Users/rouf1703/Documents/UdeS/Consultation/L-ARenaud/MODIS/VI_16Days_250m_v6/Time_Series/RData/MOD13Q1_MYD13Q1_DOY_49_2000_1_2017_RData.RData")
+modis_doy<-raster_ts
+
+modis
+levelplot(subset(modis,1:6),col.regions=rev(terrain.colors(100)),cuts=99)
+
+```
+
+Here is the region used on an interactive map.
+```{r modis_int, tidy=FALSE}
+
+tmap_mode("view")
+  tm_shape(modis[[1]]) +
+  tm_raster(palette = rev(terrain.colors(100)),n=12) +
+  tm_layout(basemaps = c("Esri.WorldImagery", "Esri.WorldShadedRelief", "Esri.NatGeoWorldMap"))
+
+```
+
+
+# SOME REFERENCES
+
+Hamel, S., Garel, M., Festa-Bianchet, M., Gaillard, J.-M., & Côté, S. D. (2009). Spring Normalized Difference Vegetation Index (NDVI) predicts annual variation in timing of peak faecal crude protein in mountain ungulates. Journal of Applied Ecology, 46(3), 582–589. [doi:10.1111/j.1365-2664.2009.01643.x](https://doi.org/doi:10.1111/j.1365-2664.2009.01643.x)
+
+Hird, J. N., & McDermid, G. J. (2009). Noise reduction of NDVI time series: An empirical comparison of selected techniques. Remote Sensing of Environment, 113(1), 248–258. [doi:10.1016/j.rse.2008.09.003](https://doi.org/10.1016/j.rse.2008.09.003)
+
+Peng, D., Wu, C., Li, C., Zhang, X., Liu, Z., Ye, H., … Fang, B. (2017). Spring green-up phenology products derived from MODIS NDVI and EVI: Intercomparison, interpretation and validation using National Phenology Network and AmeriFlux observations. Ecological Indicators, 77, 323–336. [doi:10.1016/j.ecolind.2017.02.024](https://doi.org/10.1016/j.ecolind.2017.02.024)
+
+Pettorelli, N., Pelletier, F., Hardenberg, A. von, Festa-Bianchet, M., & Côté, S. D. (2007). EARLY ONSET OF VEGETATION GROWTH VS. RAPID GREEN-UP: IMPACTS ON JUVENILE MOUNTAIN UNGULATES. Ecology, 88(2), 381–390. [doi:10.1890/06-0875](https://doi.org/10.1890/06-0875)
+
+Tveraa, T., Stien, A., Bårdsen, B.-J., & Fauchald, P. (2013). Population Densities, Vegetation Green-Up, and Plant Productivity: Impacts on Reproductive Success and Juvenile Body Mass in Reindeer. PLoS ONE, 8(2), e56450. [doi:10.1371/journal.pone.0056450](https://doi.org/10.1371/journal.pone.0056450)
+
