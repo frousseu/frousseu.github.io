@@ -1627,31 +1627,39 @@ div.tocify {
 </div>
 
 
-<!-- L'idée est de jouer avec la marge des div pour jouer avec l'espacement entre les diapos -->
 <div style="margin-bottom:10cm;">
 
 </div>
+<div id="le-truc" class="section level1">
+<h1><span class="header-section-number">1</span> Le truc</h1>
+<p>L’idée est de jouer avec la marge des <code>div</code> pour jouer avec l’espacement entre les diapos. En insérant des</p>
+<p><code>&lt;div style=&quot;margin-bottom:10cm;&quot;&gt;&lt;/div&gt;</code></p>
+<p>entre les diapos, ça permet de mettre des zones blanches entre chaque diapos. Après, il est facile de faire remplacer <code>:10cm</code> par <code>:0cm</code> pour transformer le tout en un document suivi et enlever l’effet diapo.</p>
+<div style="margin-bottom:10cm;">
+
+</div>
+</div>
 <div id="intro-au-tidyverse" class="section level1">
-<h1><span class="header-section-number">1</span> Intro au tidyverse</h1>
+<h1><span class="header-section-number">2</span> Intro au tidyverse</h1>
 <pre class="r"><code>x&lt;-runif(10)
 x</code></pre>
-<pre><code>##  [1] 0.75129646 0.69673208 0.84792747 0.02827458 0.93913634 0.85886585
-##  [7] 0.32552358 0.79910022 0.62276976 0.32871539</code></pre>
+<pre><code>##  [1] 0.0516967 0.5375432 0.4302832 0.1711991 0.4925295 0.6565031 0.4218382
+##  [8] 0.3204370 0.2349162 0.4163096</code></pre>
 <div style="margin-bottom:10cm;">
 
 </div>
 <div id="intro-aux-pipes" class="section level2">
-<h2><span class="header-section-number">1.1</span> Intro aux pipes</h2>
+<h2><span class="header-section-number">2.1</span> Intro aux pipes</h2>
 <pre class="r"><code>library(magrittr)
 y &lt;- x %&gt;% mean
 y</code></pre>
-<pre><code>## [1] 0.6198342</code></pre>
+<pre><code>## [1] 0.3733256</code></pre>
 <div style="margin-bottom:10cm;">
 
 </div>
 </div>
 <div id="intro-a-dplyr" class="section level2">
-<h2><span class="header-section-number">1.2</span> Intro à dplyr</h2>
+<h2><span class="header-section-number">2.2</span> Intro à dplyr</h2>
 <pre class="r"><code>library(dplyr)
 z &lt;- x %&gt;% data.frame %&gt;% summarize
 z</code></pre>

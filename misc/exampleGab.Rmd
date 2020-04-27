@@ -12,7 +12,15 @@ output:
 always_allow_html: yes
 ---
 
-<!-- L'idée est de jouer avec la marge des div pour jouer avec l'espacement entre les diapos -->
+<div style="margin-bottom:10cm;"></div>
+
+# Le truc
+
+L'idée est de jouer avec la marge des `div` pour jouer avec l'espacement entre les diapos. En insérant des
+
+`<div style="margin-bottom:10cm;"></div>`
+
+entre les diapos, ça permet de mettre des zones blanches entre chaque diapos. Après, il est facile de faire remplacer `:10cm` par `:0cm` pour transformer le tout en un document suivi et enlever l'effet diapo.
 
 <div style="margin-bottom:10cm;"></div>
 
