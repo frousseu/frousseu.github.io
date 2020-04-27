@@ -1,0 +1,612 @@
+---
+title: ""
+author: ""
+date: ""
+output:
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE,fig.align="center")
+```
+
+
+
+
+# Liens
+
+
+## Tableaux de bord et cartes
+
+[Kuba Suder's Coronavirus charts](https://mackuba.eu/corona)
+
+[Carte intéractive ARCGIS par John Hopkins](https://www.arcgis.com/apps/opsdashboard/index.html?fbclid=IwAR1ZLw7GtInzddurFezT4uc6YEYg7O4Qba2uXLwzhTCQCd3-Yym1NMmQH-Y#/bda7594740fd40299423467b48e9ecf6)
+
+[Carte ARCGIS pour le Québec](https://ulaval.maps.arcgis.com/apps/opsdashboard/index.html?fbclid=IwAR0DJYWl-s0KIBfBZIV6-UpoJP0VHpLZyMbrq39MUkwURvj9KBamOHs4SG4#/775aaa4e3a124d6499aeb63bfe8e4ffb)
+
+[Carte de l’OMS](https://who.maps.arcgis.com/apps/opsdashboard/index.html#/c88e37cfc43b4ed3baf977d77e4a0667)
+
+[Coronavirus tracker](https://gorkang.shinyapps.io/2020-corona/)
+
+[Canada COVID-19 interactive growth rate explorer](https://mountainmath.ca/shiny/canada_covid-19/?_inputs_&level=%22province%22&metric=%22Confirmed%22&start_cutoff=100) 
+
+
+## Infographiques
+
+[Coronavirus : suivez la propagation de la pandémie en France et dans le monde, Le Monde](https://www.lemonde.fr/les-decodeurs/article/2020/02/27/en-carte-visualisez-la-propagation-mondiale-de-l-epidemie-de-coronavirus_6031092_4355770.html)
+
+[Why outbreaks like coronavirus spread exponentially, and how to flatten the curve, Washington Post](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/)
+
+[COVID-19 Coronavirus Infographic Data Pack](https://informationisbeautiful.net/visualizations/covid-19-coronavirus-infographic-datapack/)
+
+[Coronavirus tracked: the latest figures as the pandemic spreads, Financial Times](https://www.ft.com/coronavirus-latest)
+
+## Vidéos
+
+[Minute Physics: Comment savoir si nous gagnons contre le COVID-19 ?](https://www.youtube.com/watch?v=54XLXg4fYsc&feature=youtu.be&fbclid=IwAR1bgOW3g9nUk-HyyxagS_ivcTpaDiRBrM_VrEA0m_Wmx9Ue0B4ghMn9wQs)
+
+[3Blue1Brown: Simuler une épidémie](https://www.youtube.com/watch?v=gxAaO2rsdIs&list=TLPQMjgwMzIwMjCJg96eXPBsYg&index=2)
+
+[3Blue1Brown: Exponential growth and epidemics](https://www.youtube.com/watch?v=Kas0tIxDvrg&t=456s)
+
+## Données
+
+[worldometer](https://www.worldometers.info/coronavirus/)
+
+[Coronavirus Disease (COVID-19) – Statistics and Research](https://ourworldindata.org/coronavirus)
+
+[Document pdf du MSSS concernant la veille épidémiologique des maladies respiratoires sévères infectieuses et Ebola](https://www.msss.gouv.qc.ca/professionnels/documents/veille-epidemiologique.pdf)
+
+[Données du Canada](https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection.html?topic=tilelink)
+[Données du Canada](https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/health-professionals/epidemiological-summary-covid-19-cases.html?topic=tilelink)
+
+[COVID19-Canada](https://wzmli.github.io/COVID19-Canada/)
+
+[Données de l’Islande](https://www.icelandreview.com/ask-ir/whats-the-status-of-covid-19-in-iceland/)
+
+[Google Mobility Data](https://www.google.com/covid19/mobility/)
+
+## Simulateurs
+
+[Coronavirus 10-day forecast U. of Melbourne](http://covid19.science.unimelb.edu.au/)
+
+[Models of SEIRS epidemic dynamics with extensions, including network-structured populations, testing, contact tracing, and social distancing](https://github.com/ryansmcgee/seirsplus)
+
+[Ben Bolker's simulator list](https://docs.google.com/spreadsheets/d/1hUZlVDPfa5C8KgURoP_3dAiUQgI6rdb7A5e_g8NcPaY/edit#gid=0)
+
+[McMaster Pandemic](https://github.com/bbolker/McMasterPandemic)
+
+[Modeling COVID-19 Spread vs Healthcare Capacity](https://alhill.shinyapps.io/COVID19seir/)
+
+## Initiatives collaboratives
+
+[RECON COVID-19 hub](https://github.com/reconhub/covid19hub)
+
+[FOLDING@HOME](https://foldingathome.org/covid19/)
+
+[ Collaborative Google Sheets on Policy Measures Against Covid19](https://docs.google.com/spreadsheets/d/1tYfD3vvSEaW3Cq9-UZoDtlKIfaMMVJq8XnV9XJUdK3s/edit#gid=0)
+
+## Blogs et autres
+
+[Top 35 R resources on Novel COVID-19 Coronavirus](https://www.statsandr.com/blog/top-r-resources-on-covid-19-coronavirus/)
+
+[Infectious diseases and nonlinear differential equations](https://fabiandablander.com/r/Nonlinear-Infection.html)
+
+[Wikipedia: Compartmental models in epidemiology](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SEIR_model)
+
+## Références pour les curieux
+
+<div class="csl-bib-body" style="line-height: 2; margin-left: 2em; text-indent:-2em;">
+  <div class="csl-entry">Anderson, R. M., Heesterbeek, H., Klinkenberg, D., &amp; Hollingsworth, T. D. (2020). How will country-based mitigation measures influence the course of the COVID-19 epidemic? <i>The Lancet</i>, <i>395</i>(10228), 931–934. <a href="https://doi.org/10.1016/S0140-6736(20)30567-5">https://doi.org/10.1016/S0140-6736(20)30567-5</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2FS0140-6736(20)30567-5&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=How%20will%20country-based%20mitigation%20measures%20influence%20the%20course%20of%20the%20COVID-19%20epidemic%3F&amp;rft.jtitle=The%20Lancet&amp;rft.stitle=The%20Lancet&amp;rft.volume=395&amp;rft.issue=10228&amp;rft.aufirst=Roy%20M&amp;rft.aulast=Anderson&amp;rft.au=Roy%20M%20Anderson&amp;rft.au=Hans%20Heesterbeek&amp;rft.au=Don%20Klinkenberg&amp;rft.au=T%20D%C3%A9irdre%20Hollingsworth&amp;rft.date=2020-03&amp;rft.pages=931-934&amp;rft.spage=931&amp;rft.epage=934&amp;rft.issn=01406736&amp;rft.language=en"></span>
+  <div class="csl-entry">Anderson, R. M., &amp; May, R. M. (1979). Population biology of infectious diseases: Part I. <i>Nature</i>, <i>280</i>(5721), 361–367. <a href="https://doi.org/10.1038/280361a0">https://doi.org/10.1038/280361a0</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1038%2F280361a0&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Population%20biology%20of%20infectious%20diseases%3A%20Part%20I&amp;rft.jtitle=Nature&amp;rft.stitle=Nature&amp;rft.volume=280&amp;rft.issue=5721&amp;rft.aufirst=Roy%20M.&amp;rft.aulast=Anderson&amp;rft.au=Roy%20M.%20Anderson&amp;rft.au=Robert%20M.%20May&amp;rft.date=1979-08&amp;rft.pages=361-367&amp;rft.spage=361&amp;rft.epage=367&amp;rft.issn=0028-0836%2C%201476-4687&amp;rft.language=en"></span>
+  <div class="csl-entry">Blackwood, J. C., &amp; Childs, L. M. (2018). An introduction to compartmental modeling for the budding infectious disease modeler. <i>Letters in Biomathematics</i>, <i>5</i>(1), 195–221. <a href="https://doi.org/10.1080/23737867.2018.1509026">https://doi.org/10.1080/23737867.2018.1509026</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1080%2F23737867.2018.1509026&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=An%20introduction%20to%20compartmental%20modeling%20for%20the%20budding%20infectious%20disease%20modeler&amp;rft.jtitle=Letters%20in%20Biomathematics&amp;rft.stitle=Letters%20in%20Biomathematics&amp;rft.volume=5&amp;rft.issue=1&amp;rft.aufirst=Julie%20C.&amp;rft.aulast=Blackwood&amp;rft.au=Julie%20C.%20Blackwood&amp;rft.au=Lauren%20M.%20Childs&amp;rft.date=2018-12-14&amp;rft.pages=195-221&amp;rft.spage=195&amp;rft.epage=221&amp;rft.issn=2373-7867&amp;rft.language=en"></span>
+  <div class="csl-entry">Brauer, F. (2017). Mathematical epidemiology: Past, present, and future. <i>Infectious Disease Modelling</i>, <i>2</i>(2), 113–127. <a href="https://doi.org/10.1016/j.idm.2017.02.001">https://doi.org/10.1016/j.idm.2017.02.001</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.idm.2017.02.001&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Mathematical%20epidemiology%3A%20Past%2C%20present%2C%20and%20future&amp;rft.jtitle=Infectious%20Disease%20Modelling&amp;rft.stitle=Infectious%20Disease%20Modelling&amp;rft.volume=2&amp;rft.issue=2&amp;rft.aufirst=Fred&amp;rft.aulast=Brauer&amp;rft.au=Fred%20Brauer&amp;rft.date=2017-05&amp;rft.pages=113-127&amp;rft.spage=113&amp;rft.epage=127&amp;rft.issn=24680427&amp;rft.language=en"></span>
+  <div class="csl-entry">Brauer, F. (2019). The Final Size of a Serious Epidemic. <i>Bulletin of Mathematical Biology</i>, <i>81</i>(3), 869–877. <a href="https://doi.org/10.1007/s11538-018-00549-x">https://doi.org/10.1007/s11538-018-00549-x</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1007%2Fs11538-018-00549-x&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=The%20Final%20Size%20of%20a%20Serious%20Epidemic&amp;rft.jtitle=Bulletin%20of%20Mathematical%20Biology&amp;rft.stitle=Bull%20Math%20Biol&amp;rft.volume=81&amp;rft.issue=3&amp;rft.aufirst=Fred&amp;rft.aulast=Brauer&amp;rft.au=Fred%20Brauer&amp;rft.date=2019-03&amp;rft.pages=869-877&amp;rft.spage=869&amp;rft.epage=877&amp;rft.issn=0092-8240%2C%201522-9602&amp;rft.language=en"></span>
+  <div class="csl-entry">Chatzilena, A., van Leeuwen, E., Ratmann, O., Baguelin, M., &amp; Demiris, N. (2019). Contemporary statistical inference for infectious disease models using Stan. <i>Epidemics</i>, <i>29</i>, 100367. <a href="https://doi.org/10.1016/j.epidem.2019.100367">https://doi.org/10.1016/j.epidem.2019.100367</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.epidem.2019.100367&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Contemporary%20statistical%20inference%20for%20infectious%20disease%20models%20using%20Stan&amp;rft.jtitle=Epidemics&amp;rft.stitle=Epidemics&amp;rft.volume=29&amp;rft.aufirst=Anastasia&amp;rft.aulast=Chatzilena&amp;rft.au=Anastasia%20Chatzilena&amp;rft.au=Edwin%20van%20Leeuwen&amp;rft.au=Oliver%20Ratmann&amp;rft.au=Marc%20Baguelin&amp;rft.au=Nikolaos%20Demiris&amp;rft.date=2019-12&amp;rft.pages=100367&amp;rft.issn=17554365&amp;rft.language=en"></span>
+  <div class="csl-entry">Chowell, G., Sattenspiel, L., Bansal, S., &amp; Viboud, C. (2016). Mathematical models to characterize early epidemic growth: A review. <i>Physics of Life Reviews</i>, <i>18</i>, 66–97. <a href="https://doi.org/10.1016/j.plrev.2016.07.005">https://doi.org/10.1016/j.plrev.2016.07.005</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.plrev.2016.07.005&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Mathematical%20models%20to%20characterize%20early%20epidemic%20growth%3A%20A%20review&amp;rft.jtitle=Physics%20of%20Life%20Reviews&amp;rft.stitle=Physics%20of%20Life%20Reviews&amp;rft.volume=18&amp;rft.aufirst=Gerardo&amp;rft.aulast=Chowell&amp;rft.au=Gerardo%20Chowell&amp;rft.au=Lisa%20Sattenspiel&amp;rft.au=Shweta%20Bansal&amp;rft.au=C%C3%A9cile%20Viboud&amp;rft.date=2016-09&amp;rft.pages=66-97&amp;rft.spage=66&amp;rft.epage=97&amp;rft.issn=15710645&amp;rft.language=en"></span>
+  <div class="csl-entry">Delamater, P. L., Street, E. J., Leslie, T. F., Yang, Y. T., &amp; Jacobsen, K. H. (2019). Complexity of the Basic Reproduction Number (R <sub>0</sub> ). <i>Emerging Infectious Diseases</i>, <i>25</i>(1), 1–4. <a href="https://doi.org/10.3201/eid2501.171901">https://doi.org/10.3201/eid2501.171901</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.3201%2Feid2501.171901&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Complexity%20of%20the%20Basic%20Reproduction%20Number%20(R%20%3Csub%3E0%3C%2Fsub%3E%20)&amp;rft.jtitle=Emerging%20Infectious%20Diseases&amp;rft.stitle=Emerg.%20Infect.%20Dis.&amp;rft.volume=25&amp;rft.issue=1&amp;rft.aufirst=Paul%20L.&amp;rft.aulast=Delamater&amp;rft.au=Paul%20L.%20Delamater&amp;rft.au=Erica%20J.%20Street&amp;rft.au=Timothy%20F.%20Leslie&amp;rft.au=Y.%20Tony%20Yang&amp;rft.au=Kathryn%20H.%20Jacobsen&amp;rft.date=2019-01&amp;rft.pages=1-4&amp;rft.spage=1&amp;rft.epage=4&amp;rft.issn=1080-6040%2C%201080-6059"></span>
+  <div class="csl-entry">Hébert-Dufresne, L., Althouse, B. M., Scarpino, S. V., &amp; Allard, A. (2020). Beyond $R_0$: The importance of contact tracing when predicting epidemics. <i>ArXiv:2002.04004 [Physics, q-Bio]</i>. <a href="http://arxiv.org/abs/2002.04004">http://arxiv.org/abs/2002.04004</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Beyond%20%24R_0%24%3A%20the%20importance%20of%20contact%20tracing%20when%20predicting%20epidemics&amp;rft.jtitle=arXiv%3A2002.04004%20%5Bphysics%2C%20q-bio%5D&amp;rft.aufirst=Laurent&amp;rft.aulast=H%C3%A9bert-Dufresne&amp;rft.au=Laurent%20H%C3%A9bert-Dufresne&amp;rft.au=Benjamin%20M.%20Althouse&amp;rft.au=Samuel%20V.%20Scarpino&amp;rft.au=Antoine%20Allard&amp;rft.date=2020-02-10"></span>
+  <div class="csl-entry">Heesterbeek, H., Anderson, R. M., Andreasen, V., Bansal, S., De Angelis, D., Dye, C., Eames, K. T. D., Edmunds, W. J., Frost, S. D. W., Funk, S., Hollingsworth, T. D., House, T., Isham, V., Klepac, P., Lessler, J., Lloyd-Smith, J. O., Metcalf, C. J. E., Mollison, D., Pellis, L., … Isaac Newton Institute IDD Collaboration. (2015). Modeling infectious disease dynamics in the complex landscape of global health. <i>Science</i>, <i>347</i>(6227), aaa4339–aaa4339. <a href="https://doi.org/10.1126/science.aaa4339">https://doi.org/10.1126/science.aaa4339</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1126%2Fscience.aaa4339&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Modeling%20infectious%20disease%20dynamics%20in%20the%20complex%20landscape%20of%20global%20health&amp;rft.jtitle=Science&amp;rft.stitle=Science&amp;rft.volume=347&amp;rft.issue=6227&amp;rft.aufirst=H.&amp;rft.aulast=Heesterbeek&amp;rft.au=H.%20Heesterbeek&amp;rft.au=R.%20M.%20Anderson&amp;rft.au=V.%20Andreasen&amp;rft.au=S.%20Bansal&amp;rft.au=D.%20De%20Angelis&amp;rft.au=C.%20Dye&amp;rft.au=K.%20T.%20D.%20Eames&amp;rft.au=W.%20J.%20Edmunds&amp;rft.au=S.%20D.%20W.%20Frost&amp;rft.au=S.%20Funk&amp;rft.au=T.%20D.%20Hollingsworth&amp;rft.au=T.%20House&amp;rft.au=V.%20Isham&amp;rft.au=P.%20Klepac&amp;rft.au=J.%20Lessler&amp;rft.au=J.%20O.%20Lloyd-Smith&amp;rft.au=C.%20J.%20E.%20Metcalf&amp;rft.au=D.%20Mollison&amp;rft.au=L.%20Pellis&amp;rft.au=J.%20R.%20C.%20Pulliam&amp;rft.au=M.%20G.%20Roberts&amp;rft.au=C.%20Viboud&amp;rft.au=undefined&amp;rft.date=2015-03-13&amp;rft.pages=aaa4339-aaa4339&amp;rft.spage=aaa4339&amp;rft.epage=aaa4339&amp;rft.issn=0036-8075%2C%201095-9203&amp;rft.language=en"></span>
+  <div class="csl-entry">House, T., Ross, J. V., &amp; Sirl, D. (2013). How big is an outbreak likely to be? Methods for epidemic final-size calculation. <i>Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences</i>, <i>469</i>(2150), 20120436. <a href="https://doi.org/10.1098/rspa.2012.0436">https://doi.org/10.1098/rspa.2012.0436</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1098%2Frspa.2012.0436&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=How%20big%20is%20an%20outbreak%20likely%20to%20be%3F%20Methods%20for%20epidemic%20final-size%20calculation&amp;rft.jtitle=Proceedings%20of%20the%20Royal%20Society%20A%3A%20Mathematical%2C%20Physical%20and%20Engineering%20Sciences&amp;rft.stitle=Proc.%20R.%20Soc.%20A&amp;rft.volume=469&amp;rft.issue=2150&amp;rft.aufirst=Thomas&amp;rft.aulast=House&amp;rft.au=Thomas%20House&amp;rft.au=Joshua%20V.%20Ross&amp;rft.au=David%20Sirl&amp;rft.date=2013-02-08&amp;rft.pages=20120436&amp;rft.issn=1364-5021%2C%201471-2946&amp;rft.language=en"></span>
+  <div class="csl-entry">Keeling, M. J., &amp; Eames, K. T. D. (2005). Networks and epidemic models. <i>Journal of The Royal Society Interface</i>, <i>2</i>(4), 295–307. <a href="https://doi.org/10.1098/rsif.2005.0051">https://doi.org/10.1098/rsif.2005.0051</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1098%2Frsif.2005.0051&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Networks%20and%20epidemic%20models&amp;rft.jtitle=Journal%20of%20The%20Royal%20Society%20Interface&amp;rft.stitle=J.%20R.%20Soc.%20Interface&amp;rft.volume=2&amp;rft.issue=4&amp;rft.aufirst=Matt%20J&amp;rft.aulast=Keeling&amp;rft.au=Matt%20J%20Keeling&amp;rft.au=Ken%20T.D%20Eames&amp;rft.date=2005-09-22&amp;rft.pages=295-307&amp;rft.spage=295&amp;rft.epage=307&amp;rft.issn=1742-5689%2C%201742-5662&amp;rft.language=en"></span>
+  <div class="csl-entry">Lloyd-Smith, J. O., Schreiber, S. J., Kopp, P. E., &amp; Getz, W. M. (2005). Superspreading and the effect of individual variation on disease emergence. <i>Nature</i>, <i>438</i>(7066), 355–359. <a href="https://doi.org/10.1038/nature04153">https://doi.org/10.1038/nature04153</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1038%2Fnature04153&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Superspreading%20and%20the%20effect%20of%20individual%20variation%20on%20disease%20emergence&amp;rft.jtitle=Nature&amp;rft.stitle=Nature&amp;rft.volume=438&amp;rft.issue=7066&amp;rft.aufirst=J.%20O.&amp;rft.aulast=Lloyd-Smith&amp;rft.au=J.%20O.%20Lloyd-Smith&amp;rft.au=S.%20J.%20Schreiber&amp;rft.au=P.%20E.%20Kopp&amp;rft.au=W.%20M.%20Getz&amp;rft.date=2005-11&amp;rft.pages=355-359&amp;rft.spage=355&amp;rft.epage=359&amp;rft.issn=0028-0836%2C%201476-4687&amp;rft.language=en"></span>
+  <div class="csl-entry">Ma, J. (2020). Estimating epidemic exponential growth rate and basic reproduction number. <i>Infectious Disease Modelling</i>, <i>5</i>, 129–141. <a href="https://doi.org/10.1016/j.idm.2019.12.009">https://doi.org/10.1016/j.idm.2019.12.009</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.idm.2019.12.009&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Estimating%20epidemic%20exponential%20growth%20rate%20and%20basic%20reproduction%20number&amp;rft.jtitle=Infectious%20Disease%20Modelling&amp;rft.stitle=Infectious%20Disease%20Modelling&amp;rft.volume=5&amp;rft.aufirst=Junling&amp;rft.aulast=Ma&amp;rft.au=Junling%20Ma&amp;rft.date=2020&amp;rft.pages=129-141&amp;rft.spage=129&amp;rft.epage=141&amp;rft.issn=24680427&amp;rft.language=en"></span>
+  <div class="csl-entry">Ma, J., Dushoff, J., Bolker, B. M., &amp; Earn, D. J. D. (2014). Estimating Initial Epidemic Growth Rates. <i>Bulletin of Mathematical Biology</i>, <i>76</i>(1), 245–260. <a href="https://doi.org/10.1007/s11538-013-9918-2">https://doi.org/10.1007/s11538-013-9918-2</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1007%2Fs11538-013-9918-2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Estimating%20Initial%20Epidemic%20Growth%20Rates&amp;rft.jtitle=Bulletin%20of%20Mathematical%20Biology&amp;rft.stitle=Bull%20Math%20Biol&amp;rft.volume=76&amp;rft.issue=1&amp;rft.aufirst=Junling&amp;rft.aulast=Ma&amp;rft.au=Junling%20Ma&amp;rft.au=Jonathan%20Dushoff&amp;rft.au=Benjamin%20M.%20Bolker&amp;rft.au=David%20J.%20D.%20Earn&amp;rft.date=2014-01&amp;rft.pages=245-260&amp;rft.spage=245&amp;rft.epage=260&amp;rft.issn=0092-8240%2C%201522-9602&amp;rft.language=en"></span>
+  <div class="csl-entry">Mollison, D., Isham, V., &amp; Grenfell, B. (1994). Epidemics: Models and Data. <i>Journal of the Royal Statistical Society. Series A (Statistics in Society)</i>, <i>157</i>(1), 115. <a href="https://doi.org/10.2307/2983509">https://doi.org/10.2307/2983509</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.2307%2F2983509&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Epidemics%3A%20Models%20and%20Data&amp;rft.jtitle=Journal%20of%20the%20Royal%20Statistical%20Society.%20Series%20A%20(Statistics%20in%20Society)&amp;rft.stitle=Journal%20of%20the%20Royal%20Statistical%20Society.%20Series%20A%20(Statistics%20in%20Society)&amp;rft.volume=157&amp;rft.issue=1&amp;rft.aufirst=Denis&amp;rft.aulast=Mollison&amp;rft.au=Denis%20Mollison&amp;rft.au=Valerie%20Isham&amp;rft.au=Bryan%20Grenfell&amp;rft.date=1994&amp;rft.pages=115&amp;rft.issn=09641998"></span>
+  <div class="csl-entry">Pandemic Influenza Outbreak Research Modelling Team (Pan-InfORM). (2009). Modelling an influenza pandemic: A guide for the perplexed. <i>Canadian Medical Association Journal</i>, <i>181</i>(3–4), 171–173. <a href="https://doi.org/10.1503/cmaj.090885">https://doi.org/10.1503/cmaj.090885</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1503%2Fcmaj.090885&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Modelling%20an%20influenza%20pandemic%3A%20A%20guide%20for%20the%20perplexed&amp;rft.jtitle=Canadian%20Medical%20Association%20Journal&amp;rft.stitle=Canadian%20Medical%20Association%20Journal&amp;rft.volume=181&amp;rft.issue=3-4&amp;rft.au=undefined&amp;rft.date=2009-08-04&amp;rft.pages=171-173&amp;rft.spage=171&amp;rft.epage=173&amp;rft.issn=0820-3946%2C%201488-2329&amp;rft.language=en"></span>
+  <div class="csl-entry">Ridenhour, B., Kowalik, J. M., &amp; Shay, D. K. (2014). Unraveling <i>R</i> <sub>0</sub>: Considerations for Public Health Applications. <i>American Journal of Public Health</i>, <i>104</i>(2), e32–e41. <a href="https://doi.org/10.2105/AJPH.2013.301704">https://doi.org/10.2105/AJPH.2013.301704</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.2105%2FAJPH.2013.301704&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Unraveling%20%3Ci%3ER%3C%2Fi%3E%20%3Csub%3E0%3C%2Fsub%3E%20%3A%20Considerations%20for%20Public%20Health%20Applications&amp;rft.jtitle=American%20Journal%20of%20Public%20Health&amp;rft.stitle=Am%20J%20Public%20Health&amp;rft.volume=104&amp;rft.issue=2&amp;rft.aufirst=Benjamin&amp;rft.aulast=Ridenhour&amp;rft.au=Benjamin%20Ridenhour&amp;rft.au=Jessica%20M.%20Kowalik&amp;rft.au=David%20K.%20Shay&amp;rft.date=2014-02&amp;rft.pages=e32-e41&amp;rft.spage=e32&amp;rft.epage=e41&amp;rft.issn=0090-0036%2C%201541-0048&amp;rft.language=en"></span>
+  <div class="csl-entry">Santillana, M., Tuite, A., Nasserie, T., Fine, P., Champredon, D., Chindelevitch, L., Dushoff, J., &amp; Fisman, D. (2018). Relatedness of the incidence decay with exponential adjustment (IDEA) model, “Farr’s law” and SIR compartmental difference equation models. <i>Infectious Disease Modelling</i>, <i>3</i>, 1–12. <a href="https://doi.org/10.1016/j.idm.2018.03.001">https://doi.org/10.1016/j.idm.2018.03.001</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.idm.2018.03.001&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Relatedness%20of%20the%20incidence%20decay%20with%20exponential%20adjustment%20(IDEA)%20model%2C%20%E2%80%9CFarr's%20law%E2%80%9D%20and%20SIR%20compartmental%20difference%20equation%20models&amp;rft.jtitle=Infectious%20Disease%20Modelling&amp;rft.stitle=Infectious%20Disease%20Modelling&amp;rft.volume=3&amp;rft.aufirst=Mauricio&amp;rft.aulast=Santillana&amp;rft.au=Mauricio%20Santillana&amp;rft.au=Ashleigh%20Tuite&amp;rft.au=Tahmina%20Nasserie&amp;rft.au=Paul%20Fine&amp;rft.au=David%20Champredon&amp;rft.au=Leonid%20Chindelevitch&amp;rft.au=Jonathan%20Dushoff&amp;rft.au=David%20Fisman&amp;rft.date=2018&amp;rft.pages=1-12&amp;rft.spage=1&amp;rft.epage=12&amp;rft.issn=24680427&amp;rft.language=en"></span>
+  <div class="csl-entry">St-Onge, G., Thibeault, V., Allard, A., Dubé, L. J., &amp; Hébert-Dufresne, L. (2020). School closures, event cancellations, and the mesoscopic localization of epidemics in networks with higher-order structure. <i>ArXiv:2003.05924 [Nlin, Physics:Physics]</i>. <a href="http://arxiv.org/abs/2003.05924">http://arxiv.org/abs/2003.05924</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=School%20closures%2C%20event%20cancellations%2C%20and%20the%20mesoscopic%20localization%20of%20epidemics%20in%20networks%20with%20higher-order%20structure&amp;rft.jtitle=arXiv%3A2003.05924%20%5Bnlin%2C%20physics%3Aphysics%5D&amp;rft.aufirst=Guillaume&amp;rft.aulast=St-Onge&amp;rft.au=Guillaume%20St-Onge&amp;rft.au=Vincent%20Thibeault&amp;rft.au=Antoine%20Allard&amp;rft.au=Louis%20J.%20Dub%C3%A9&amp;rft.au=Laurent%20H%C3%A9bert-Dufresne&amp;rft.date=2020-03-12"></span>
+  <div class="csl-entry">Sun, P., Lu, X., Xu, C., Sun, W., &amp; Pan, B. (2020). Understanding of COVID‐19 based on current evidence. <i>Journal of Medical Virology</i>, jmv.25722. <a href="https://doi.org/10.1002/jmv.25722">https://doi.org/10.1002/jmv.25722</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1002%2Fjmv.25722&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Understanding%20of%20COVID%E2%80%9019%20based%20on%20current%20evidence&amp;rft.jtitle=Journal%20of%20Medical%20Virology&amp;rft.stitle=J%20Med%20Virol&amp;rft.aufirst=Pengfei&amp;rft.aulast=Sun&amp;rft.au=Pengfei%20Sun&amp;rft.au=Xiaosheng%20Lu&amp;rft.au=Chao%20Xu&amp;rft.au=Wenjuan%20Sun&amp;rft.au=Bo%20Pan&amp;rft.date=2020-03-05&amp;rft.pages=jmv.25722&amp;rft.issn=0146-6615%2C%201096-9071&amp;rft.language=en"></span>
+  <div class="csl-entry">Tuite, A., Fisman, D. N., &amp; Greer, A. L. (2020). <i>Mathematical modeling of COVID-19 transmission and mitigation strategies in the population of Ontario, Canada</i> [Preprint]. Epidemiology. <a href="https://doi.org/10.1101/2020.03.24.20042705">https://doi.org/10.1101/2020.03.24.20042705</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=report&amp;rft.btitle=Mathematical%20modeling%20of%20COVID-19%20transmission%20and%20mitigation%20strategies%20in%20the%20population%20of%20Ontario%2C%20Canada&amp;rft.aufirst=Ashleigh&amp;rft.aulast=Tuite&amp;rft.au=Ashleigh%20Tuite&amp;rft.au=David%20N%20Fisman&amp;rft.au=Amy%20L%20Greer&amp;rft.date=2020-03-26&amp;rft.language=en"></span>
+  <div class="csl-entry">Viboud, C., Simonsen, L., &amp; Chowell, G. (2016). A generalized-growth model to characterize the early ascending phase of infectious disease outbreaks. <i>Epidemics</i>, <i>15</i>, 27–37. <a href="https://doi.org/10.1016/j.epidem.2016.01.002">https://doi.org/10.1016/j.epidem.2016.01.002</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.epidem.2016.01.002&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=A%20generalized-growth%20model%20to%20characterize%20the%20early%20ascending%20phase%20of%20infectious%20disease%20outbreaks&amp;rft.jtitle=Epidemics&amp;rft.stitle=Epidemics&amp;rft.volume=15&amp;rft.aufirst=C%C3%A9cile&amp;rft.aulast=Viboud&amp;rft.au=C%C3%A9cile%20Viboud&amp;rft.au=Lone%20Simonsen&amp;rft.au=Gerardo%20Chowell&amp;rft.date=2016-06&amp;rft.pages=27-37&amp;rft.spage=27&amp;rft.epage=37&amp;rft.issn=17554365&amp;rft.language=en"></span>
+</div>
+
+
+
+<div style="margin-bottom:2cm;"></div>
+
+<img src="C:/Users/User/Downloads/terms.png" align="middle" width="80%"/>
+<br>
+[Heesterbeek et al. (2015)](http://dx.doi.org/10.1126/science.aaa4339)
+
+<div style="margin-bottom:2cm;"></div>
+
+# Modèles phénoménologiques
+```{r, fig.height=5,fig.width=5,echo=FALSE,fig.keep="last"}
+
+set.seed(123)
+x<-0:30
+z<-exp(0.05*(x+c(0,rnorm(length(x)-1,0,5))))
+y<-cumsum(z)
+plot(x,y)
+m<-lm(log(y)~x)
+p<-predict(m)
+plot(x,y,xlab="Days",ylab="Nombre de cas cumulatifs",xaxs="i",yaxs="i")
+lines(x,cumsum(exp(0.05*x)))
+
+```
+
+<div style="margin-bottom:2cm;"></div>
+
+## Exponentiel
+
+$$N(t) = N_{0}e^{rt}$$
+
+```{r, fig.height=5,fig.width=5}
+EXP<-function(r,I0=1,days=30,dt=0.01){
+	k<-seq(0,days,dt)
+	m<-matrix(NA,nrow=length(k),ncol=length(r))
+	colnames(m)<-r
+	rownames(m)<-k
+	m[1,]<-I0
+	dN<-function(I){r*I}
+	for(i in 2:length(k)){
+		 m[i,]<-m[i-1,]+dt*dN(m[i-1,])
+	}
+	m
+}
+
+r<-c(0.1,0.2)
+days<-30
+dt<-0.01
+x<-EXP(r=r,I0=1,days=days,dt=dt)
+matplot(x,type="l",xlab="Days",ylab="Nombre de cas cumulatifs",lty=1,lwd=2,xaxs="i",yaxs="i",log="",xaxt="n")
+axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+
+```
+
+<div style="margin-bottom:2cm;"></div>
+
+## Logistique
+
+$$\frac{dN}{dt} = rN(t)\left(1-\frac{N(t)}{K}\right)$$
+
+```{r, fig.height=5,fig.width=5}
+RLG<-function(r,a=1,K=c(100,1000,2000),I0=1,dt=0.01,days=30){
+	k<-seq(0,days,dt)
+	m<-matrix(NA,nrow=length(k),ncol=length(K))
+	colnames(m)<-K
+	rownames(m)<-k
+	m[1,]<-I0
+	dI<-function(I){r*I*(1-(I/K)^a)}
+	for(i in 2:length(k)){
+		m[i,]<-m[i-1,]+dt*dI(m[i-1,])
+	}
+	m
+}
+
+K<-c(100,1000,2000)
+dt<-0.01
+days<-30
+x<-RLG(r=1.1,a=1,K=K,I0=1,dt=dt,days=days)
+matplot(x,type="l",xlab="Days",ylab="Nombre de cas cumulatifs",lty=1,lwd=2,xaxs="i",yaxs="i",log="",xaxt="n",ylim=c(0,max(K)*1.1))
+axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+legend("topleft",legend=paste("K =",K),bty="n",col=1:3,lwd=2)
+```
+
+<div style="margin-bottom:2cm;"></div>
+
+## Richards
+
+$$\frac{dN}{dt} = rN(t)\left(1-\left(\frac{N(t)}{K}\right)^a\right)$$
+
+```{r, fig.height=5,fig.width=5}
+RLG<-function(r,a,K,I0,dt,days){
+	k<-seq(0,days,dt)
+	m<-matrix(NA,nrow=length(k),ncol=length(a))
+	colnames(m)<-a
+	rownames(m)<-k
+	m[1,]<-I0
+	dI<-function(I){r*I*(1-(I/K)^a)}
+	for(i in 2:length(k)){
+		m[i,]<-m[i-1,]+dt*dI(m[i-1,])
+	}
+	m
+}
+
+a<-c(0.2,0.5,1)
+days<-30
+dt<-0.01
+x<-RLG(r=1.5,a=a,K=10000,I0=1,dt=dt,days=days)
+matplot(x,type="l",xlab="Days",ylab="Nombre de cas cumulatifs",lty=1,lwd=2,xaxs="i",yaxs="i",log="",xaxt="n",ylim=c(0,10000*1.1))
+axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+legend("right",legend=paste("a =",a),bty="n",col=1:3,lwd=2)
+```
+
+<div style="margin-bottom:2cm;"></div>
+
+## Generalized Growth Model
+
+$$\frac{dN}{dt} = rN(t)^{p}$$
+
+<center>
+Où $p$ est un paramètre de décélération.
+</center>
+
+```{r, fig.height=5,fig.width=10}
+GGM<-function(r,p,I0=1,dt=0.1,days=5){
+	k<-seq(0,days,dt)
+	m<-matrix(NA,nrow=length(k),ncol=length(p))
+	colnames(m)<-p
+	rownames(m)<-k
+	m[1,]<-I0
+	dI<-function(I){r*I^p}
+	for(i in 2:length(k)){
+		 m[i,]<-m[i-1,]+dt*dI(m[i-1,])
+	}
+	m
+}
+
+p<-c(0.5,0.9,1)
+days<-30
+dt<-0.01
+x<-GGM(r=0.2,p=p,I0=1,dt=dt,days=days)
+par(mfrow=c(1,2))
+matplot(x,type="l",xlab="Times",ylab="Nombre de cas cumulatifs",lty=1,lwd=2,xaxs="i",yaxs="i",log="",xaxt="n")
+axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+matplot(x,type="l",xlab="Times",ylab="Nombre de cas cumulatifs",lty=1,lwd=2,xaxs="i",yaxs="i",log="y",xaxt="n")
+axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+legend("topleft",legend=paste("p =",p),bty="n",col=1:length(p),lwd=2)
+```
+
+
+<div style="margin-bottom:2cm;"></div>
+
+<img src="C:/Users/User/Downloads/pChowell.jpg" align="middle" width="100%"/>
+[Viboud et al. (2015)](https://doi.org/10.1016/j.epidem.2016.01.002)
+
+<div style="margin-bottom:2cm;"></div>
+
+
+# Modèles compartimentaux
+
+
+<img src="C:/Users/User/Downloads/SEIR.png" align="middle" width="70%"/>
+<br>
+[Ma et al. (2014)](https://doi.org/10.1007/s11538-013-9918-2)
+
+<div style="margin-bottom:2cm;"></div>
+
+## SIR
+
+<center>
+
+$$\mathbf{S}usceptible - \mathbf{I}nfected - \mathbf{R}ecovered$$
+<br>
+$$\frac{dS}{dt} = -\beta \frac{SI}{N}$$
+<br>
+$$\frac{dI}{dt} = \beta \frac{SI}{N}-\gamma I$$
+<br>
+$$\frac{dR}{dt} = \gamma I$$
+<br>
+$$\frac{d}{dt}(S+I+R) = 0$$
+
+<br>
+
+$\beta$: taux de transmission
+
+$\gamma$: taux de guérison
+
+$N$: population totale
+
+<br>
+
+$$R_{0} = \frac{\beta}{\gamma}$$
+
+</center>
+
+<div style="margin-bottom:2cm;"></div>
+
+```{r, fig.height=3.5,fig.width=10.5}
+
+SIR<-function(S0,I0,beta,gamma,dt,days){
+	N0<-S0+I0
+	k<-seq(0,days,dt)
+	m<-matrix(NA,ncol=3,nrow=length(k))
+	colnames(m)<-c("S","I","R")
+	rownames(m)<-k
+	m[1,]<-c(S0,I0,N0-S0-I0)
+	dS<-function(S,I){-beta*I*S/N0}
+	dI<-function(S,I){beta*I*S/N0-gamma*I}
+	for(i in 2:length(k)){
+		S<-m[i-1,1]	
+		I<-m[i-1,2]	
+		m[i,1]<-S+dt*dS(S,I)
+		m[i,2]<-I+dt*dI(S,I)
+	}
+	m[,3]<-N0-m[,1]-m[,2]
+	m
+}
+
+beta<-c(3,3,3)
+gamma<-c(0.5,1.5,2.5)
+days<-30
+dt<-0.01
+
+par(mfrow=c(1,3))
+l<-lapply(seq_along(beta),function(i){
+	 x<-SIR(S0=10^4,I0=1,beta=beta[i],gamma=gamma[i],dt=dt,days=days)
+  matplot(x,type="l",xlab="Days",ylab="Population size",lty=1,lwd=2,xaxs="i",yaxs="i",xaxt="n")
+  axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+  mtext(side=3,text=bquote(beta == .(beta[i]) ~~ gamma == .(gamma[i])))
+  legend("right",legend=c("Susceptible","Infected","Recovered"),bty="n",col=1:3,lwd=2)
+})
+
+```
+
+
+<div style="margin-bottom:2cm;"></div>
+
+## SEIR
+
+<center>
+
+$$\mathbf{S}usceptible - \mathbf{E}xposed - \mathbf{I}nfectious - \mathbf{R}ecovered$$
+<br>
+$$\frac{dS}{dt} = -\beta \frac{SI}{N}$$
+<br>
+$$\frac{dE}{dt} = \beta \frac{SI}{N}-\sigma E$$
+<br>
+$$\frac{dI}{dt} = \sigma E-\gamma I$$
+<br>
+$$\frac{dR}{dt} = \gamma I$$
+<br>
+$$\frac{d}{dt}(S+E+I+R) = 0$$
+
+<br>
+
+$\beta$: taux de transmission
+
+$\sigma$: taux de développement des symptômes
+
+$\gamma$: taux de guérison
+
+$N$: population totale
+
+</center>
+
+<div style="margin-bottom:2cm;"></div>
+
+```{r, fig.height=3.5,fig.width=10.5}
+
+SEIR<-function(S0,I0,beta,gamma,sigma,dt,days){
+	N0<-S0+I0
+	k<-seq(0,days,dt)
+	m<-matrix(NA,ncol=4,nrow=length(k))
+	colnames(m)<-c("S","E","I","R")
+	rownames(m)<-k
+	m[1,]<-c(S0,I0,0,0)
+	dS<-function(S,I){-beta*I*S/N0}
+	dE<-function(S,I){beta*I*S/N0-sigma*E}
+	dI<-function(S,I){sigma*E-gamma*I}
+	for(i in 2:length(k)){
+		S<-m[i-1,1]	
+		E<-m[i-1,2]	
+		I<-m[i-1,3]	
+		m[i,1]<-S+dt*dS(S,I)
+		m[i,2]<-E+dt*dE(S,I)
+		m[i,3]<-I+dt*dI(S,I)
+	}
+	m[,4]<-N0-m[,1]-m[,2]-m[,3]
+	m
+}
+
+beta<-c(3,3,3)
+sigma<-c(2,1,0.5)
+gamma<-c(0.5,0.5,0.5)
+dt<-0.01
+days<-30
+
+par(mfrow=c(1,3))
+l<-lapply(seq_along(beta),function(i){
+	 x<-SEIR(S0=10^4,I0=1,beta=beta[i],sigma=sigma[i],gamma=gamma[i],dt=dt,days=days)
+  cols<-c(1,"orange",2,3)
+	 matplot(x,type="l",xlab="Days",ylab="Population size",lty=1,lwd=2,xaxs="i",yaxs="i",col=cols,xaxt="n")
+	 axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+  mtext(side=3,text=bquote(beta == .(beta[i]) ~~ gamma == .(gamma[i])~~ sigma == .(sigma[i]) ))
+  legend("right",legend=c("Susceptible","Exposed","Infectious","Recovered"),bty="n",col=cols,lwd=2)
+})
+
+```
+
+
+<div style="margin-bottom:2cm;"></div>
+
+<div align="center">
+<div style="width: 45%; margin:0 left;text-align: left;">
+Supposition du modèle **SIR**
+<li>Immunité complète (ou mort) suite à l'infection</li>
+<li>Tous les individus sont également susceptibles</li>
+<li>Population fermée (pas de naissances)</li>
+<li>Tous les individus sont également suceptibles d'interagir</li>
+</div>
+</div>
+
+
+<div style="margin-bottom:2cm;"></div>
+
+
+## SIR avec décélération
+
+$$\beta(t) = \beta_{0}((1-\phi)e^{-qt}+\phi)$$
+
+<br>
+
+<center>
+
+$\beta_{0}$: taux d'infection initial
+
+$\phi$: proportion de la valeur initiale de $\beta_{0}$ jusqu'où la décroissance se rend
+
+$q$: taux de diminution de $\beta$
+
+</center>
+
+```{r, fig.height=3.5,fig.width=10.5}
+
+bt<-function(t,beta0,phi,q){beta0*(((1-phi)*exp(-q*t))+phi)}
+
+days<-seq(0,30)
+beta0<-c(3,3,3)
+phi<-c(0.0,0.5,0.5)
+q<-c(0.3,0.3,0.001)
+
+par(mfrow=c(1,3))
+l<-lapply(seq_along(beta0),function(i){
+	x<-bt(days,beta0[i],q=q[i],phi=phi[i])
+	plot(x,type="l",xlab="Days",ylab=expression(beta),lty=1,lwd=2,xaxs="i",yaxs="i",ylim=c(0,max(beta0)))
+	mtext(side=3,text=bquote(phi == .(phi[i]) ~~ q == .(q[i])))
+})
+
+```
+
+<div style="margin-bottom:2cm;"></div>
+
+<br>
+$$\frac{dS}{dt} = -\beta(t) \frac{SI}{N}$$
+<br>
+$$\frac{dI}{dt} = \beta(t) \frac{SI}{N}-\gamma I$$
+<br>
+$$\frac{dR}{dt} = \gamma I$$
+<br>
+$$\beta(t) = \beta_{0}((1-\phi)e^{-qt}+\phi)$$
+
+
+```{r, fig.height=3.5,fig.width=10.5}
+
+SIRb<-function(S0,I0,beta0,gamma,q,phi,dt,days){
+	N0<-S0+I0
+	k<-seq(0,days,dt)
+	m<-matrix(NA,ncol=4,nrow=length(k))
+	colnames(m)<-c("S","I","R","beta")
+	rownames(m)<-k
+	m[1,]<-c(S0,I0,N0-S0-I0,beta0)
+	bt<-function(t){beta0*(((1-phi)*exp(-q*t))+phi)}
+	dS<-function(b,S,I){-b*I*S/N0}
+	dI<-function(b,S,I){b*I*S/N0-gamma*I}
+	for(i in 2:length(k)){
+		S<-m[i-1,1]	
+		I<-m[i-1,2]	
+		beta<-bt(i)
+		m[i,1]<-S+dt*dS(beta,S,I)
+		m[i,2]<-I+dt*dI(beta,S,I)
+	}
+	m[,3]<-N0-m[,1]-m[,2]
+	m
+}
+
+beta0<-c(3,3,3)
+gamma<-c(1,1,1)
+phi<-c(0.1,0.1,0.1)
+q<-c(0.0025,0.0015,0.0001)
+days<-30
+dt<-0.01
+phi<-c(0.0,0.5,0.5)
+q<-c(0.3,0.3,0.001)
+
+
+par(mfrow=c(1,3))
+l<-lapply(seq_along(beta0),function(i){
+	x<-SIRb(S0=10^4,I0=1,beta0=beta0[i],gamma=gamma[i],q=q[i],phi=phi[i],dt=dt,days=days)
+	matplot(x,type="l",xlab="Times",ylab="Population size",lty=1,lwd=2,xaxs="i",yaxs="i",xaxt="n")
+	axis(1,at=seq(1,nrow(x),by=1/dt),labels=rownames(x)[seq(1,nrow(x),by=1/dt)])
+	mtext(side=3,text=bquote(phi == .(phi[i]) ~~ q == .(q[i])))
+	legend("right",legend=c("Susceptible","Infected","Recovered"),bty="n",col=1:3,lwd=2)
+	x
+})
+
+
+```
+
+<div style="margin-bottom:2cm;"></div>
+
+# Extensions
+
+## Types de modèles
+
+### Stochastique
+
+<div class="csl-bib-body" style="line-height: 2; margin-left: 2em; text-indent:-2em;">
+  <div class="csl-entry">Allen, L. J. S. (2017). A primer on stochastic epidemic models: Formulation, numerical simulation, and analysis. <i>Infectious Disease Modelling</i>, <i>2</i>(2), 128–142. <a href="https://doi.org/10.1016/j.idm.2017.03.001">https://doi.org/10.1016/j.idm.2017.03.001</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.idm.2017.03.001&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=A%20primer%20on%20stochastic%20epidemic%20models%3A%20Formulation%2C%20numerical%20simulation%2C%20and%20analysis&amp;rft.jtitle=Infectious%20Disease%20Modelling&amp;rft.stitle=Infectious%20Disease%20Modelling&amp;rft.volume=2&amp;rft.issue=2&amp;rft.aufirst=Linda%20J.S.&amp;rft.aulast=Allen&amp;rft.au=Linda%20J.S.%20Allen&amp;rft.date=2017-05&amp;rft.pages=128-142&amp;rft.spage=128&amp;rft.epage=142&amp;rft.issn=24680427&amp;rft.language=en"></span>
+</div>
+
+### Sur réseaux
+
+<div class="csl-bib-body" style="line-height: 2; margin-left: 2em; text-indent:-2em;">
+  <div class="csl-entry">Keeling, M. J., &amp; Eames, K. T. D. (2005). Networks and epidemic models. <i>Journal of The Royal Society Interface</i>, <i>2</i>(4), 295–307. <a href="https://doi.org/10.1098/rsif.2005.0051">https://doi.org/10.1098/rsif.2005.0051</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1098%2Frsif.2005.0051&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Networks%20and%20epidemic%20models&amp;rft.jtitle=Journal%20of%20The%20Royal%20Society%20Interface&amp;rft.stitle=J.%20R.%20Soc.%20Interface&amp;rft.volume=2&amp;rft.issue=4&amp;rft.aufirst=Matt%20J&amp;rft.aulast=Keeling&amp;rft.au=Matt%20J%20Keeling&amp;rft.au=Ken%20T.D%20Eames&amp;rft.date=2005-09-22&amp;rft.pages=295-307&amp;rft.spage=295&amp;rft.epage=307&amp;rft.issn=1742-5689%2C%201742-5662&amp;rft.language=en"></span>
+</div>
+
+
+<div style="margin-bottom:2cm;"></div>
+
+## Population multiples
+
+<img src="C:/Users/User/Downloads/popChowell.jpg" align="middle" width="100%"/>
+[Chowell et al. (2016)](https://doi.org/10.1016/j.plrev.2016.07.005)
+
+<div style="margin-bottom:2cm;"></div>
+
+## Hétérogénéité dans les contacts
+
+<img src="C:/Users/User/Downloads/HDr0het.png" align="middle" width="80%"/>
+<br>
+[Hébert-Dufresne et al. (2020)](https://arxiv.org/abs/2002.04004)
+
+<div style="margin-bottom:2cm;"></div>
+
+## Distanciation sociale
+
+<img src="C:/Users/User/Downloads/Parket2020.png" align="middle" width="100%"/>
+[Park et al. (2020)](https://doi.org/10.1101/2020.03.27.20045815)
+
+<div style="margin-bottom:2cm;"></div>
+
+
+
