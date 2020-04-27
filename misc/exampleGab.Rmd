@@ -1,0 +1,46 @@
+---
+title: ''
+output:
+  html_document:
+    depth: 4
+    toc: yes
+    number_sections: yes
+    code_folding: show
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+always_allow_html: yes
+---
+
+<!-- L'idée est de jouer avec la marge des div pour jouer avec l'espacement entre les diapos -->
+
+<div style="margin-bottom:10cm;"></div>
+
+# Intro au tidyverse
+
+```{r}
+x<-runif(10)
+x
+```
+
+<div style="margin-bottom:10cm;"></div>
+
+## Intro aux pipes
+
+```{r}
+library(magrittr)
+y <- x %>% mean
+y
+```
+
+
+<div style="margin-bottom:10cm;"></div>
+
+## Intro à dplyr
+
+```{r,message=FALSE}
+library(dplyr)
+z <- x %>% data.frame %>% summarize
+z
+```
+
