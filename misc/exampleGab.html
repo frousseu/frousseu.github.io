@@ -1519,8 +1519,8 @@ $(document).ready(function ()  {
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
     };
-    options.showAndHide = false;
-    options.smoothScroll = false;
+    options.showAndHide = true;
+    options.smoothScroll = true;
 
     // tocify
     var toc = $("#TOC").tocify(options).data("toc-tocify");
@@ -1580,12 +1580,6 @@ div.tocify {
   border-radius: 0px;
 }
 
-.tocify-subheader {
-  display: inline;
-}
-.tocify-subheader .tocify-item {
-  font-size: 0.95em;
-}
 
 </style>
 
@@ -1627,39 +1621,58 @@ div.tocify {
 </div>
 
 
-<div style="margin-bottom:10cm;">
+<!-- the style section defines the css code -->
+<style>
 
-</div>
+.whitespace { 
+  display:inline-block; 
+  height: 20cm;
+}
+
+h1.title, h1, h2, h3, h4, h5, h6 {
+  margin-top: 0cm;
+  padding-top: 4cm; /* will go to the top of the padding when clicking sections*/
+  color: ForestGreen;
+  font-weight: bold;
+}
+
+#TOC {
+  color: black; 
+  border: none;
+}
+
+</style>
 <div id="le-truc" class="section level1">
 <h1><span class="header-section-number">1</span> Le truc</h1>
-<p>L’idée est de jouer avec la marge des <code>div</code> pour jouer avec l’espacement entre les diapos. En insérant des</p>
-<p><code>&lt;div style=&quot;margin-bottom:10cm;&quot;&gt;&lt;/div&gt;</code></p>
-<p>entre les diapos, ça permet de mettre des zones blanches entre chaque diapos. Après, il est facile de faire remplacer <code>:10cm</code> par <code>:0cm</code> pour transformer le tout en un document suivi et enlever l’effet diapo.</p>
-<div style="margin-bottom:10cm;">
-
-</div>
+<p>L’idée est de définir un espace blanc avec du <em>css</em> et d’insérer des <code>&lt;span class=&quot;whitespace&quot;&gt;&lt;/span&gt;</code> entre les sections formant les diapos. Après, il est facile de changer la hauteur de la section pour transformer le tout en un document suivi et enlever l’effet diapo.</p>
+<p>Voir <a href="https://github.com/frousseu/frousseu.github.io/blob/master/misc/exampleGab.Rmd"><strong>ici</strong></a> pour le code.</p>
+<p><span class="whitespace"></span></p>
 </div>
 <div id="intro-au-tidyverse" class="section level1">
 <h1><span class="header-section-number">2</span> Intro au tidyverse</h1>
 <pre class="r"><code>x&lt;-runif(10)
 x</code></pre>
-<pre><code>##  [1] 0.0516967 0.5375432 0.4302832 0.1711991 0.4925295 0.6565031 0.4218382
-##  [8] 0.3204370 0.2349162 0.4163096</code></pre>
-<div style="margin-bottom:10cm;">
-
-</div>
+<pre><code>##  [1] 0.69786677 0.23900271 0.02944732 0.54103013 0.34164407 0.28553868
+##  [7] 0.51944148 0.88226742 0.28507693 0.52757504</code></pre>
+<p><span class="whitespace"></span></p>
 <div id="intro-aux-pipes" class="section level2">
 <h2><span class="header-section-number">2.1</span> Intro aux pipes</h2>
 <pre class="r"><code>library(magrittr)
 y &lt;- x %&gt;% mean
 y</code></pre>
-<pre><code>## [1] 0.3733256</code></pre>
-<div style="margin-bottom:10cm;">
-
+<pre><code>## [1] 0.4348891</code></pre>
+<p><span class="whitespace"></span></p>
 </div>
 </div>
-<div id="intro-a-dplyr" class="section level2">
-<h2><span class="header-section-number">2.2</span> Intro à dplyr</h2>
+<div id="intro-a-tidyr" class="section level1">
+<h1><span class="header-section-number">3</span> Intro à tidyr</h1>
+<pre class="r"><code>library(dplyr)
+z &lt;- x %&gt;% data.frame %&gt;% summarize
+z</code></pre>
+<pre><code>## data frame with 0 columns and 1 row</code></pre>
+<p><span class="whitespace"></span></p>
+<div id="intro-a-purrr" class="section level2">
+<h2><span class="header-section-number">3.1</span> Intro à purrr</h2>
 <pre class="r"><code>library(dplyr)
 z &lt;- x %&gt;% data.frame %&gt;% summarize
 z</code></pre>

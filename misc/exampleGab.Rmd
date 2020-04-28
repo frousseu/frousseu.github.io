@@ -7,22 +7,42 @@ output:
     number_sections: yes
     code_folding: show
     toc_float:
-      collapsed: no
-      smooth_scroll: no
+      collapsed: yes
+      smooth_scroll: yes
 always_allow_html: yes
 ---
 
-<div style="margin-bottom:10cm;"></div>
+<!-- the style section defines the css code -->
+
+<style>
+
+.whitespace { 
+  display:inline-block; 
+  height: 20cm;
+}
+
+h1.title, h1, h2, h3, h4, h5, h6 {
+  margin-top: 0cm;
+  padding-top: 4cm; /* will go to the top of the padding when clicking sections*/
+  color: ForestGreen;
+  font-weight: bold;
+}
+
+#TOC {
+  color: black; 
+  border: none;
+}
+
+</style>
+
 
 # Le truc
 
-L'idée est de jouer avec la marge des `div` pour jouer avec l'espacement entre les diapos. En insérant des
+L'idée est de définir un espace blanc avec du *css* et d'insérer des `<span class="whitespace"></span>` entre les sections formant les diapos. Après, il est facile de changer la hauteur de la section pour transformer le tout en un document suivi et enlever l'effet diapo.
 
-`<div style="margin-bottom:10cm;"></div>`
+Voir [**ici**](https://github.com/frousseu/frousseu.github.io/blob/master/misc/exampleGab.Rmd) pour le code.
 
-entre les diapos, ça permet de mettre des zones blanches entre chaque diapos. Après, il est facile de faire remplacer `:10cm` par `:0cm` pour transformer le tout en un document suivi et enlever l'effet diapo.
-
-<div style="margin-bottom:10cm;"></div>
+<span class="whitespace"></span>
 
 # Intro au tidyverse
 
@@ -31,7 +51,7 @@ x<-runif(10)
 x
 ```
 
-<div style="margin-bottom:10cm;"></div>
+<span class="whitespace"></span>
 
 ## Intro aux pipes
 
@@ -41,10 +61,19 @@ y <- x %>% mean
 y
 ```
 
+<span class="whitespace"></span>
 
-<div style="margin-bottom:10cm;"></div>
+# Intro à tidyr
 
-## Intro à dplyr
+```{r,message=FALSE}
+library(dplyr)
+z <- x %>% data.frame %>% summarize
+z
+```
+
+<span class="whitespace"></span>
+
+## Intro à purrr
 
 ```{r,message=FALSE}
 library(dplyr)
