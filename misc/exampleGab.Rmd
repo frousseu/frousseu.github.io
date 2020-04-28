@@ -21,6 +21,11 @@ always_allow_html: yes
   height: 20cm;
 }
 
+#TOC {
+  color: black; 
+  border: none;
+}
+
 h1.title, h1, h2, h3, h4, h5, h6 {
   margin-top: 0cm;
   padding-top: 4cm; /* will go to the top of the padding when clicking sections*/
@@ -28,19 +33,37 @@ h1.title, h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
-#TOC {
-  color: black; 
-  border: none;
-}
-
 </style>
 
 
 # Le truc
 
-L'idée est de définir un espace blanc avec du *css* et d'insérer des `<span class="whitespace"></span>` entre les sections formant les diapos. Après, il est facile de changer la hauteur de la section pour transformer le tout en un document suivi et enlever l'effet diapo.
+L'idée est de définir un espace blanc avec du *css* dans le haut de son fichier *.Rmd* et d'insérer des `<span class="whitespace"></span>` entre les sections formant les diapos. Après, il est facile de changer la hauteur de la section pour transformer le tout en un document suivi et enlever l'effet diapo.
 
-Voir [**ici**](https://github.com/frousseu/frousseu.github.io/blob/master/misc/exampleGab.Rmd) pour le code.
+```{css}
+<style>
+
+.whitespace { 
+  display:inline-block; 
+  height: 20cm;
+}
+
+#TOC {
+  color: black; 
+  border: none;
+}
+
+h1.title, h1, h2, h3, h4, h5, h6 {
+  margin-top: 0cm;
+  padding-top: 4cm; /* will go to the top of the padding when clicking sections*/
+  color: ForestGreen;
+  font-weight: bold;
+}
+
+</style>
+```
+
+En utilisant une table des matières (`#TOC`) et un *padding* sur les titres (`h1`, `h2`, ...), il est également possible de naviguer d'une sections/diapos à l'autre. Voir [**ici**](https://github.com/frousseu/frousseu.github.io/blob/master/misc/exampleGab.Rmd) pour le code.
 
 <span class="whitespace"></span>
 
