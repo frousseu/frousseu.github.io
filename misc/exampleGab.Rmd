@@ -63,7 +63,7 @@ h1.title, h1, h2, h3, h4, h5, h6 {
 </style>
 ```
 
-En utilisant une table des matières (`#TOC`) et un *padding* sur les titres (`h1`, `h2`, ...), il est également possible de naviguer d'une sections/diapos à l'autre. Voir [**ici**](https://github.com/frousseu/frousseu.github.io/blob/master/misc/exampleGab.Rmd) pour le code.
+En utilisant une table des matières (`#TOC`) et un *padding* sur les titres (`h1`, `h2`, ...), il est également possible de naviguer d'une section/diapo à l'autre. Voir [**ici**](https://github.com/frousseu/frousseu.github.io/blob/master/misc/exampleGab.Rmd) pour le code.
 
 <span class="whitespace"></span>
 
